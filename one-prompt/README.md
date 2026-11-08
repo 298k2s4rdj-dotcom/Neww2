@@ -17,7 +17,7 @@ full score and sound design.
 cd one-prompt
 npm install          # also scans /public for optional audio
 npm run preview      # Remotion Studio, scrub through the film
-npm run render       # → out/one-prompt.mp4
+npm run render       # → out/one-prompt.mp4 (renders, then masters the audio)
 npm run thumbnail    # → out/thumbnail.png (1280×720)
 npm run upload       # → uploads to YouTube (private by default)
 ```
@@ -95,6 +95,11 @@ way sounds move along when you change the timings. The available files are liste
 in `public/sfx/README.md`. If you replace a file with one of the same name it is
 used automatically, and if one is missing it's skipped silently.
 `npm run preview|render|thumbnail` rescans `/public` first.
+
+After rendering, `npm run render` runs `npm run master` automatically. This step
+normalizes the film's audio to YouTube loudness (−14 LUFS, −1.5 dBTP) with a
+two-pass loudnorm, using the ffmpeg that ships with Remotion. The video stream is
+copied untouched.
 
 All audio was generated with ElevenLabs (Music v2.5, Sound Effects v2).
 

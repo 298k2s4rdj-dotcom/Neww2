@@ -2,16 +2,17 @@
   "name": "one-prompt",
   "version": "1.0.0",
   "private": true,
-  "description": "ONE PROMPT – an animated short film about learning AI, built with Remotion, plus a YouTube upload script.",
+  "description": "ONE PROMPT \u2013 an animated short film about learning AI, built with Remotion, plus a YouTube upload script.",
   "type": "module",
   "scripts": {
     "assets": "tsx scripts/scan-assets.ts",
     "postinstall": "tsx scripts/scan-assets.ts",
     "preview": "npm run assets && remotion studio src/index.ts",
-    "render": "npm run assets && remotion render src/index.ts OnePrompt out/one-prompt.mp4 --codec=h264",
+    "render": "npm run assets && remotion render src/index.ts OnePrompt out/one-prompt.mp4 --codec=h264 --audio-bitrate=320k && npm run master",
     "thumbnail": "npm run assets && remotion still src/index.ts Thumbnail out/thumbnail.png",
     "upload": "tsx scripts/upload.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "master": "tsx scripts/master-audio.ts"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
