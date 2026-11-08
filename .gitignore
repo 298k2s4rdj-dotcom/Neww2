@@ -10,3 +10,5 @@ mix2/*/build/
 mix2/*/qc/
 ratemal/*/build/
 ratemal/*/qc/
+test/*/build/
+test/*/qc/
