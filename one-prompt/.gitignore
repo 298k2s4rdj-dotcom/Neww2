@@ -1,0 +1,7 @@
+node_modules/
+out/
+src/generated/
+client_secret.json
+token.json
+*.log
+.DS_Store

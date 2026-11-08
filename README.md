@@ -7,3 +7,7 @@
 - `src/narration_raw.mp3`: the narration, from the ElevenLabs voice "Jack – Deep Dark Horror Narrator" (voice only)
 
 Re-render: `python3 src/render.py` (needs numpy, Pillow, ffmpeg).
+
+## ONE PROMPT (animated short film)
+
+A ~4:40 min Remotion project with a YouTube upload script, in [`one-prompt/`](one-prompt/README.md).
