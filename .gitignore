@@ -14,3 +14,5 @@ test/*/build/
 test/*/qc/
 ratemal_situation/*/build/
 ratemal_situation/*/qc/
+stickman/*/build/
+stickman/*/qc/
