@@ -79,7 +79,7 @@ def whale_sprite(L, t, flip=False):
     return im.transpose(Image.FLIP_LEFT_RIGHT) if flip else im
 
 
-def beam(img, tilt, lx_off=300, py=760, a=1.0):
+def beam(img, tilt, lx_off=270, py=760, a=1.0):
     px = SPLIT
     lx, ly = px - lx_off * math.cos(tilt), py - lx_off * math.sin(tilt)
     rx, ry = px + lx_off * math.cos(tilt), py + lx_off * math.sin(tilt)
@@ -225,9 +225,9 @@ def sc_puls(img, sc, t, gt):
     beats_l = [k * period for k in range(-5, 40)]
     beats_r = [t_2 + 0.15]
     al = ease_out(prog(t, 0.2, 0.4))
-    ecg(img, (30, 450, 440, 740), t, beats_l, C_L, al)
+    ecg(img, (70, 450, 510, 740), t, beats_l, C_L, al)
     ar = ease_out(prog(t, t_bt - 0.3, 0.4))
-    ecg(img, (500, 450, 910, 740), t, beats_r, C_R, ar if ar > 0 else 0.0001)
+    ecg(img, (570, 450, 925, 740), t, beats_r, C_R, ar if ar > 0 else 0.0001)
     # hearts that pulse with the trace
     bl = max([math.exp(-((t - b) / 0.08) ** 2) for b in beats_l])
     br = math.exp(-((t - beats_r[0]) / 0.12) ** 2)

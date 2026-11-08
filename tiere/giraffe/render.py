@@ -110,7 +110,7 @@ def sc_hook(img, sc, t, gt):
     pa = back_out(prog(t, 0.0, 0.4))
     paste_c(img, person_sprite(220 * pa + 1, C_L), CXL, GROUND - 60, anchor="b")
     rise = ease_out(prog(t, 0.0, 0.6))
-    draw_giraffe(img, 470, CXR + 40, GROUND - 60 + (1 - rise) * 90, gt, alpha=rise)
+    draw_giraffe(img, 470, CXR - 40, GROUND - 60 + (1 - rise) * 90, gt, alpha=rise)
     q = back_out(prog(t, t_ge, 0.35))
     text(img, "?", 170, SPLIT - 10, VIS_Y - 40, fill=E.C_HI, scale=q * (1 + 0.08 * math.sin(gt * 9)), stroke=10,
          sfill=(0, 0, 0))
@@ -122,13 +122,13 @@ def sc_groesse(img, sc, t, gt):
     t_du, t_180 = wt(sc, "Du"), wt(sc, "eins", 2)
     t_g, t_55, t_3 = wt(sc, "Giraffe"), wt(sc, "fünfeinhalb"), wt(sc, "Dreimal")
     ppm = 100
-    ruler(img, SPLIT - 12, GROUND, ppm, 5.5, a=ease_out(prog(t, 0.2, 0.4)), step=0.5)
+    ruler(img, 410, GROUND, ppm, 5.5, a=ease_out(prog(t, 0.2, 0.4)), step=0.5)
     pa = back_out(prog(t, t_du - 0.1, 0.4))
     if pa > 0.02:
         paste_c(img, person_sprite(1.8 * ppm * pa, C_L), CXL - 60, GROUND, anchor="b")
     g = ease_out(prog(t, t_g - 0.1, 1.0))
     if g > 0.02:
-        draw_giraffe(img, 5.5 * ppm * g, CXR + 30, GROUND, gt)
+        draw_giraffe(img, 5.5 * ppm * g, 690, GROUND, gt)
     # three people stacked = giraffe height
     if t > t_3 - 0.1:
         for k in range(3):
@@ -149,7 +149,7 @@ def sc_baby(img, sc, t, gt):
     t_mb, t_50 = wt(sc, "Menschenbaby"), wt(sc, "fünfzig")
     t_gb, t_180, t_so = wt(sc, "Giraffenbaby"), wt(sc, "eins"), wt(sc, "So")
     ppm = 250
-    ruler(img, SPLIT - 12, GROUND, ppm, 2, a=ease_out(prog(t, 0.2, 0.4)), step=0.25)
+    ruler(img, 505, GROUND, ppm, 2, a=ease_out(prog(t, 0.2, 0.4)), step=0.25)
     pa = back_out(prog(t, t_mb - 0.1, 0.4))
     if pa > 0.02:
         spr = baby_sprite(0.5 * ppm * pa)
@@ -162,7 +162,7 @@ def sc_baby(img, sc, t, gt):
             d.line((x1, GROUND + 8, x1, GROUND + 28), fill=C_L, width=4)
     g = back_out(prog(t, t_gb - 0.1, 0.6))
     if g > 0.02:
-        draw_giraffe(img, 1.8 * ppm * clamp(g, 0, 1.08), CXR + 30, GROUND, gt)
+        draw_giraffe(img, 1.8 * ppm * clamp(g, 0, 1.08), 720, GROUND, gt)
     # outline of an adult (1.80 m) next to the calf
     if t > t_so - 0.1:
         a = ease_out(prog(t, t_so - 0.1, 0.4))
@@ -172,7 +172,7 @@ def sc_baby(img, sc, t, gt):
              path=FONT_XB)
     counter(img, CXL, "≈ 50 cm", "Menschenbaby", C_L, ease_out(prog(t, t_50, 0.3)))
     counter(img, CXR, "bis 1,80 m", "Giraffenbaby", C_R, ease_out(prog(t, t_180, 0.3)))
-    burst(img, CXR + 30, GROUND - 0.9 * ppm, t, t_so, color=C_R, rad=230)
+    burst(img, 720, GROUND - 0.9 * ppm, t, t_so, color=C_R, rad=230)
 
 
 WHITE_ = (255, 255, 255)
@@ -223,7 +223,7 @@ def sc_wirbel(img, sc, t, gt):
     panel_labels(img, t)
     t_hals, t_7a = wt(sc, "Hals"), wt(sc, "sieben", 1)
     t_du, t_7b, t_u = wt(sc, "du"), wt(sc, "sieben", 2), wt(sc, "Unentschieden")
-    m = draw_giraffe(img, 560, CXR + 40, GROUND, gt, alpha=ease_out(prog(t, 0.1, 0.4)))
+    m = draw_giraffe(img, 520, 690, GROUND, gt, alpha=ease_out(prog(t, 0.1, 0.4)))
     lit_r = 7 * clamp((t - (t_7a - 0.3)) / 0.8) if t > t_7a - 0.3 else (0 if t < t_hals else 0)
     if t > t_hals - 0.2:
         giraffe_vertebrae(img, m, lit_r)

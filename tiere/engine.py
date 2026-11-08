@@ -23,7 +23,7 @@ W, H, FPS = 1080, 1920, 30
 SR = 48000
 GAP, HOLD, XF = 0.10, 0.9, 0.25
 SAFE_T, SAFE_B, SAFE_R = 150, H - 400, W - 140
-SPLIT, CXL, CXR = 470, 235, 705
+SPLIT, CXL, CXR = 540, 290, 740   # exakte 50:50-Teilung; rechts bleibt der TikTok-Rand (x > 940) frei
 VIS_Y, NUM_Y, SUB_Y = 700, 1085, 1395
 GROUND = 1000
 WHITE = (255, 255, 255)
@@ -363,15 +363,16 @@ def header(img, gt, title, t, title_a=1.0):
     if title:
         k = ease_out(prog(t, 0.0, 0.35))
         sc = 1.5 - 0.5 * back_out(prog(t, 0.0, 0.4))
-        fs = min(60, 60 * 820 / max(1, text_w(title, 60)))
+        fs = min(60, 60 * 760 / max(1, text_w(title, 60)))
         text(img, title, fs, SPLIT, 298, scale=sc, alpha=k * title_a, stroke=5, sfill=(20, 10, 40))
 
 
 def panel_labels(img, t, a=1.0, right=None):
     k = ease_out(prog(t, 0.05, 0.4)) * a
-    text(img, CFG["name_l"], 54, CXL - (1 - k) * 120, 390, fill=CFG["col_l"], alpha=k, stroke=4, sfill=(0, 0, 0))
-    text(img, right or CFG["name_r"], 54, CXR + (1 - k) * 120, 390, fill=CFG["col_r"], alpha=k, stroke=4,
-         sfill=(0, 0, 0))
+    nl, nr = CFG["name_l"], right or CFG["name_r"]
+    fs = min(54, 54 * 380 / max(text_w(nl, 54), text_w(nr, 54), 1))
+    text(img, nl, fs, CXL - (1 - k) * 120, 390, fill=CFG["col_l"], alpha=k, stroke=4, sfill=(0, 0, 0))
+    text(img, nr, fs, CXR + (1 - k) * 120, 390, fill=CFG["col_r"], alpha=k, stroke=4, sfill=(0, 0, 0))
 
 
 def vs_badge(img, t, a=1.0, y=VIS_Y, x=SPLIT):
@@ -565,12 +566,12 @@ def outro(img, sc, t, gt, mascot_l, mascot_r, line1="Dein Tipp?", line2="Ab in d
             spr = spr.resize((max(1, int(240 * sz)), max(1, int(200 * sz))), Image.BILINEAR)
             paste_c(img, spr, SPLIT, 990)
         a = ease_out(q)
-        ax = 790 + 30 * math.sin(gt * 8)
+        ax = 830 + 20 * math.sin(gt * 8)
         dd = ImageDraw.Draw(img)
         if a > 0.1:
             dd.line((ax - 110, 1190, ax, 1190), fill=C_HI, width=14)
             dd.polygon([(ax + 40, 1190), (ax - 5, 1155), (ax - 5, 1225)], fill=C_HI)
-        text(img, line2, 44, SPLIT - 90, 1190, alpha=a, stroke=5, path=FONT_XB)
+        text(img, line2, 40, ax - 140, 1190, alpha=a, stroke=5, path=FONT_XB, anchor="rm")
 
 
 # ------------------------------------------------------------------ render

@@ -31,6 +31,15 @@ Neu rendern: `python3 tiere/<tier>/render.py` (QC-Bilder: `--stills`).
 - `mix/kaffee/kaffee_vs_energydrink.mp4` (43,2 s), `mix/licht/schall_vs_licht.mp4` (40,4 s), `mix/eniac/eniac_vs_smartphone.mp4` (43,3 s)
 - Gleiche Engine wie die Tier-Videos (`tiere/engine.py`); `mix/sources.md` (Quellen), `mix/tiktok.md` (Texte)
 
+## Mix 2: Bauwerke, Hund, Weltall (3 Videos)
+
+- `mix2/eiffel/eiffelturm_vs_burj_khalifa.mp4` (43,3 s), `mix2/hund/mensch_vs_hund.mp4` (38,8 s), `mix2/mond/mond_vs_erde.mp4` (35,9 s)
+- `mix2/sources.md` (Quellen), `mix2/tiktok.md` (Texte)
+
+## Layout
+
+Alle Videos nutzen eine exakte 50:50-Teilung (Trennlinie bei x = 540 px). Wichtige Inhalte bleiben trotzdem aus dem rechten TikTok-Rand (140 px) heraus.
+
 ## YouTube-Branding
 
 - `branding/youtube_profilbild.png` (800 × 800) und `branding/youtube_banner.png` (2560 × 1440), Vorschauen im selben Ordner

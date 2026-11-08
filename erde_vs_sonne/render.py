@@ -36,8 +36,8 @@ SR = 48000
 
 # TikTok safe zone: top 150, bottom 400, right 140 stay free of content
 SAFE_T, SAFE_B, SAFE_R = 150, H - 400, W - 140
-SPLIT = 470                       # centre of usable width (0..940)
-CXL, CXR = 235, 705               # panel centres
+SPLIT = 540                       # exakte 50:50-Teilung des Bildes
+CXL, CXR = 290, 740               # Panel-Mitten (rechts bleibt x > 940 frei)
 VIS_Y = 700                       # centre of the main visual
 NUM_Y = 1085                      # counters
 SUB_Y = 1395                      # subtitles
@@ -690,7 +690,7 @@ def sc_masse(img, sc, t, gt):
         # balance beam
         tilt = 0.30 * ease_out(prog(t, t_x, 1.0)) + 0.04 * math.sin(gt * 9) * (1 - prog(t, t_x + 0.4, 0.8)) * (t > t_x)
         px, py = SPLIT, 760
-        L = 330
+        L = 290
         lx, ly = px - L * math.cos(tilt), py - L * math.sin(tilt)
         rx, ry = px + L * math.cos(tilt), py + L * math.sin(tilt)
         layer = Image.new("RGBA", (W, H))

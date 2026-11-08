@@ -72,7 +72,7 @@ def scale_dev(img, cx, y, reading, color, a=1.0, w=170):
 
 
 def beam(img, tilt, py=820):
-    L = 300
+    L = 265
     lx, ly = SPLIT - L * math.cos(tilt), py - L * math.sin(tilt)
     rx, ry = SPLIT + L * math.cos(tilt), py + L * math.sin(tilt)
     layer = Image.new("RGBA", (E.W, E.H))

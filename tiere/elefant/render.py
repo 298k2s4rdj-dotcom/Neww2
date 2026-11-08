@@ -91,8 +91,8 @@ def sc_hook(img, sc, t, gt):
     paste_c(img, person_sprite(220 * back_out(prog(t, 0.0, 0.4)) + 1, C_L), CXL, GROUND - 40, anchor="b")
     rise = ease_out(prog(t, t_t - 0.6, 0.7))
     if rise > 0:
-        draw_elephant(img, 300, CXR + 20, GROUND - 40 + (1 - rise) * 600, gt, tint=(20, 10, 40, 255))
-        text(img, "?", 130, CXR + 20, GROUND - 230, fill=C_R, scale=1 + 0.1 * math.sin(gt * 9), stroke=8,
+        draw_elephant(img, 300, CXR - 40, GROUND - 40 + (1 - rise) * 600, gt, tint=(20, 10, 40, 255))
+        text(img, "?", 130, CXR - 40, GROUND - 230, fill=C_R, scale=1 + 0.1 * math.sin(gt * 9), stroke=8,
              alpha=rise)
     # calendar counting the months
     p = back_out(prog(t, 0.0, 0.35))
@@ -117,7 +117,7 @@ def sc_groesse(img, sc, t, gt):
         paste_c(img, person_sprite(1.8 * ppm * pa, C_L), 150, GROUND, anchor="b")
     g = ease_out(prog(t, t_el - 0.1, 0.9))
     if g > 0.02:
-        draw_elephant(img, 3.5 * ppm * g, 620, GROUND, gt)
+        draw_elephant(img, 3.5 * ppm * g, 595, GROUND, gt)
     if t > t_35:
         a = ease_out(prog(t, t_35, 0.4))
         y = GROUND - 3.5 * ppm
@@ -132,7 +132,7 @@ def sc_groesse(img, sc, t, gt):
     counter(img, CXL, "1,80 m", "du (Beispiel)", C_L, ease_out(prog(t, t_180, 0.3)))
     counter(img, CXR, "über " + E.fmt_dec(3.5 * ease_out(prog(t, t_35, 0.8)), 1) + " m", "bis zur Schulter", C_R,
             ease_out(prog(t, t_35, 0.3)))
-    burst(img, 620, GROUND - 3.5 * ppm, t, t_s, color=C_R, rad=200)
+    burst(img, 595, GROUND - 3.5 * ppm, t, t_s, color=C_R, rad=200)
 
 
 def tiles(img, cx, top, cols, n_total, n_lit, size, gap, color):
