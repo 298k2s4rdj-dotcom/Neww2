@@ -25,3 +25,12 @@ Neu rendern: `python3 erde_vs_sonne/render.py` (QC-Bilder: `--stills`).
 - `tiere/sources.md`: alle Zahlen mit Quellen · `tiere/tiktok.md`: Beschreibungen und Hashtags
 
 Neu rendern: `python3 tiere/<tier>/render.py` (QC-Bilder: `--stills`).
+
+## Mix: Alltag, Physik, Technik (3 Videos)
+
+- `mix/kaffee/kaffee_vs_energydrink.mp4` (43,2 s), `mix/licht/schall_vs_licht.mp4` (40,4 s), `mix/eniac/eniac_vs_smartphone.mp4` (43,3 s)
+- Gleiche Engine wie die Tier-Videos (`tiere/engine.py`); `mix/sources.md` (Quellen), `mix/tiktok.md` (Texte)
+
+## YouTube-Branding
+
+- `branding/youtube_profilbild.png` (800 × 800) und `branding/youtube_banner.png` (2560 × 1440), Vorschauen im selben Ordner

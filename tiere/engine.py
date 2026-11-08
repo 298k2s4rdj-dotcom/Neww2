@@ -224,11 +224,15 @@ class SS:
 
     def ell(self, cx, cy, rx, ry, fill, outline=None, width=0):
         k = self.k
+        rx, ry = max(0.0, rx), max(0.0, ry)
         self.d.ellipse(((cx - rx) * k, (cy - ry) * k, (cx + rx) * k, (cy + ry) * k), fill=fill, outline=outline,
                        width=int(width * k))
 
     def rect(self, x0, y0, x1, y1, r, fill):
         k = self.k
+        if x1 <= x0 or y1 <= y0:
+            return
+        r = max(0, min(r, (x1 - x0) / 2, (y1 - y0) / 2))
         self.d.rounded_rectangle((x0 * k, y0 * k, x1 * k, y1 * k), int(r * k), fill=fill)
 
     def line(self, pts, fill, width):
@@ -350,8 +354,9 @@ def header(img, gt, title, t, title_a=1.0):
             if side in ("R", "B"):
                 popr = k
     rrect(img, (SPLIT - 270, 168, SPLIT + 270, 238), 35, (0, 0, 0, 150), outline=(255, 255, 255, 60), width=2)
-    text(img, CFG["name_l"], 32, SPLIT - 170, 203, fill=CFG["col_l"])
-    text(img, CFG["name_r"], 32, SPLIT + 170, 203, fill=CFG["col_r"])
+    for nm, col, x in ((CFG["name_l"], CFG["col_l"], SPLIT - 170), (CFG["name_r"], CFG["col_r"], SPLIT + 170)):
+        fs = min(32, 32 * 150 / max(1, text_w(nm, 32)))
+        text(img, nm, fs, x, 203, fill=col)
     text(img, str(sl), 46, SPLIT - 50, 203, scale=popl, fill=C_HI if popl > 1.01 else WHITE)
     text(img, ":", 46, SPLIT, 200)
     text(img, str(sr), 46, SPLIT + 50, 203, scale=popr, fill=C_HI if popr > 1.01 else WHITE)
@@ -684,6 +689,7 @@ def build_audio():
 # ------------------------------------------------------------------ setup / main
 def setup(**kw):
     global BG, STARS
+    CFG.clear()
     CFG.update(kw)
     here = CFG["here"]
     CFG.setdefault("raw", os.path.join(here, "audio_raw"))

@@ -4,3 +4,5 @@ erde_vs_sonne/qc_mp4/
 __pycache__/
 tiere/*/build/
 tiere/*/qc/
+mix/*/build/
+mix/*/qc/
