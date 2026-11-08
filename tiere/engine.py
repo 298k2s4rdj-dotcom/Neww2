@@ -82,7 +82,7 @@ def fmt_dec(x, nd=1):
 
 
 # ------------------------------------------------------------------ timeline
-PUNCT = ".,:;!?-"
+PUNCT = ".,:;!?-…"
 
 
 def strip(w):
@@ -663,7 +663,10 @@ def synth_sfx():
             add(whoosh(), sc["start"] - 0.15, 0.10)
     for st, _ in SCORE:
         add(thump(), st, 0.15)
-    add(chime(), SCORE[-1][0] + 0.05, 0.10)
+    if SCORE:
+        add(chime(), SCORE[-1][0] + 0.05, 0.10)
+    for gtf in CFG.get("chimes", []):
+        add(chime(), gtf, 0.10)
     for si, word, occ, d in CFG.get("ticks", []):
         t0 = SCENES[si]["start"] + wt(SCENES[si], word, occ)
         k = 0.0

@@ -12,3 +12,5 @@ ratemal/*/build/
 ratemal/*/qc/
 test/*/build/
 test/*/qc/
+ratemal_situation/*/build/
+ratemal_situation/*/qc/
