@@ -8,7 +8,8 @@ It includes a script that uploads the film to YouTube through the YouTube Data A
 
 Black silhouette characters (MAX in a hoodie, LENA with glasses, FRIEND in a cap,
 and the BOSS) with expressive white eyes, flat gradient sets, typewriter speech
-and thought bubbles, serif title cards. There's no voice acting.
+and thought bubbles, serif title cards. There's no voice acting, but there is a
+full score and sound design.
 
 ## Quick start
 
@@ -46,8 +47,8 @@ scripts/
   scan-assets.ts       finds optional audio in /public → src/generated/assets.json
   upload.ts            OAuth2 + resumable YouTube upload + thumbnail
 public/
-  music.mp3            (optional, you provide it)
-  sfx/                 (optional) alarm, keyboard, rain, paper-crumple, ding
+  music.mp3            the score
+  sfx/                 30 sound effects / ambiences (see sfx/README.md)
 ```
 
 ### Tweaking timings
@@ -70,12 +71,32 @@ Beat times are relative to the start of their scene.
 | 5 | 3:30 – 4:10 | Big goal deleted, rainy night "Just one.", title card |
 | 6 | 4:10 – 4:40 | FRIEND asks, MAX passes it on, final card, `@howtowithai` end card |
 
-## Audio (optional)
+## Sound
 
-Put `public/music.mp3` and any of `public/sfx/{alarm,keyboard,rain,paper-crumple,ding}.mp3`
-in place (wav/m4a/aac/ogg also work). `npm run preview|render|thumbnail` rescans
-`/public` first. Missing files are skipped, so the film renders silently instead of
-failing. The music sits at a low level for scenes 1–3 and fades up at scene 4.
+The film has a full sound design. There's no dialogue audio, but everything
+sounds like it does in real life:
+
+- **Score:** `public/music.mp3`, one continuous piece with a recurring felt-piano
+  melody. It is quiet and lonely while MAX gives up, warm and building in scene 4,
+  and gentle in the rain. `MUSIC.levels` in `src/config.ts` sets the volume per scene.
+- **Ambience:** café murmur, evening and night room tone, morning birds, office
+  hum, rain with distant thunder. They change with every cut, so each place
+  sounds different.
+- **Foley:** footsteps, the pin, the laptop turning, typing, clicks, the message
+  whoosh and reply chime, one marker squeak per red X and green check, the chart
+  ripped off, crumpled, landing in the bin, unfolded and flipped, the marker
+  writing "1 PROMPT", the fridge, the alarm clock, the sofa, the phone sliding
+  across the table, coffee cups and MAX's sighs.
+- **Automatic:** a soft pop when a bubble appears and a swell under every title card.
+
+Every sound cue sits next to its scene, in a `SceneNSound` component in
+`src/scenes/SceneN.tsx`, timed with the same config values as the picture. That
+way sounds move along when you change the timings. The available files are listed
+in `public/sfx/README.md`. If you replace a file with one of the same name it is
+used automatically, and if one is missing it's skipped silently.
+`npm run preview|render|thumbnail` rescans `/public` first.
+
+All audio was generated with ElevenLabs (Music v2.5, Sound Effects v2).
 
 ## YouTube upload
 

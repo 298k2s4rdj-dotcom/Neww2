@@ -8,7 +8,7 @@ import { AlarmClock, Laptop } from "../components/Props";
 import { ChatScreen, LaptopCloseup } from "../components/Screens";
 import { APT, ApartmentBackground, BedroomBackground, OfficeBackground } from "../components/Sets";
 import { ChartCloseup, PromptCounter, Say, Shot } from "../components/Shots";
-import { Sound } from "../components/Sound";
+import { Ambience, Repeat, Sound } from "../components/Sound";
 import { WallChart } from "../components/WallChart";
 import { typing } from "../components/poses";
 import type { TimeOfDay } from "../components/palette";
@@ -123,15 +123,17 @@ export const Scene4: React.FC = () => {
             <ChatScreen prompt={C.chat.prompt} reply={C.chat.reply} replyAt={C.chat.replyAt} />
           </LaptopCloseup>
         </Fade>
-        <Sound name="keyboard" at={0.4} dur={C.chat.prompt.length / 20} volume={0.6} />
-        <Sound name="ding" at={C.chat.replyAt + 2} dur={1.5} volume={0.5} />
+        <Sound name="keyboard" at={0.4} dur={C.chat.prompt.length / 20} volume={0.6} fadeOut={0.15} />
+        <Sound name="send" at={0.4 + C.chat.prompt.length / 20 + 0.33} volume={0.35} />
+        <Sound name="ding" at={C.chat.replyAt} volume={0.45} />
       </Shot>
       <Shot from={C.smile.from} to={C.smile.to} name="Smile">
         <DeskShot checks={0} />
       </Shot>
       <Shot from={C.firstCheck.from} to={C.firstCheck.to} name="First check">
         <ChartCloseup id="s4-first" time="morning" side="back" checks={(fr) => lerpF(fr, [f(0.3), f(0.9)], [0, 1])} />
-        <Sound name="ding" at={0.3} dur={1.2} volume={0.5} />
+        <Sound name="marker-check" at={0.3} volume={0.65} />
+        <Sound name="ding" at={0.75} volume={0.3} />
       </Shot>
       {beats.map((b) => {
         const before = firstChecks + b.index;
@@ -147,12 +149,14 @@ export const Scene4: React.FC = () => {
                     <ChatScreen prompt={b.prompt} reply={b.reply} cps={30} typeFrom={0.2} replyAt={0.2 + b.prompt.length / 30 + 0.7} />
                   </LaptopCloseup>
                 </Fade>
-                <Sound name="keyboard" at={0.2} dur={b.prompt.length / 30} volume={0.5} />
+                <Sound name="keyboard" at={0.2} dur={b.prompt.length / 30} volume={0.5} fadeOut={0.1} />
+                <Sound name="send" at={0.2 + b.prompt.length / 30 + 0.33} volume={0.3} />
+                <Sound name="ding" at={0.2 + b.prompt.length / 30 + 0.7} volume={0.3} />
               </Shot>
             )}
             <Shot from={b.start + b.shot + b.screen} to={b.start + b.shot + b.screen + b.check} name="Check">
               <ChartCloseup id={`s4-c${b.index}`} time="day" side="back" checks={(fr) => before + lerpF(fr, [f(0.2), f(0.8)], [0, 1])} />
-              <Sound name="ding" at={0.2} dur={1.2} volume={0.45} />
+              <Sound name="marker-check" at={0.2} volume={0.6} />
             </Shot>
           </React.Fragment>
         );
@@ -170,9 +174,48 @@ export const Scene4: React.FC = () => {
           />
         </Fade>
       </Shot>
+      <Scene4Sound beats={beats} />
       <Sequence from={f(C.montageStart)} durationInFrames={f(C.duration - C.montageStart)} name="Counter">
         <PromptCounter steps={C.counter} offset={C.montageStart} />
       </Sequence>
     </AbsoluteFill>
   );
 };
+
+/** Sound design (ambiences + place-specific foley) – times in scene seconds. */
+const Scene4Sound: React.FC<{ beats: { place: string; start: number; shot: number; screen: number; check: number }[] }> = ({ beats }) => {
+  const fill = C.fillUp;
+  const fillStart = firstChecksAfterMontage(beats.length) + f(fill.chartFrom - fill.from) / 30;
+  const fillChecks = Math.max(0, Math.floor(26 - fillStart));
+  const checkTimes = Array.from({ length: fillChecks }, (_, i) => fill.chartFrom + (5 / (26 - fillStart)) * (i + 1 - (fillStart % 1)));
+  return (
+    <>
+      <Ambience name="morning-birds" at={0} dur={C.firstCheck.to} volume={0.5} fade={1.5} />
+      <Sound name="sofa" at={C.morning.alarmAt + 2} dur={1.5} volume={0.35} fadeOut={0.4} />
+      {beats.map((b, i) => {
+        const len = b.shot + b.screen + b.check;
+        return (
+          <React.Fragment key={i}>
+            {b.place === "office" ? (
+              <>
+                <Ambience name="office" at={b.start} dur={b.shot} volume={0.45} fade={0.3} />
+                <Sound name="footsteps" at={b.start} dur={1.7} volume={0.45} fadeOut={0.3} />
+                <Sound name="keyboard" at={b.start} dur={2} volume={0.3} fadeOut={0.3} />
+              </>
+            ) : (
+              <Ambience name={b.place === "sofa" ? "room-evening" : "morning-birds"} at={b.start} dur={len} volume={0.35} fade={0.3} />
+            )}
+            {b.place === "fridge" && <Sound name="fridge" at={b.start + 0.2} volume={0.65} />}
+            {b.place === "desk" && <Sound name="keyboard" at={b.start + 0.2} dur={1.6} volume={0.35} fadeOut={0.3} />}
+          </React.Fragment>
+        );
+      })}
+      <Ambience name="room-evening" at={fill.from} dur={fill.to - fill.from} volume={0.35} fade={1} />
+      <Sound name="keyboard" at={fill.from + 0.3} dur={2.5} volume={0.3} fadeOut={0.5} />
+      <Sound name="keyboard" at={fill.from + 4.5} dur={2.2} volume={0.25} fadeOut={0.5} />
+      <Repeat name="marker-check" times={checkTimes} volume={0.4} />
+    </>
+  );
+};
+
+const firstChecksAfterMontage = (n: number) => 1 + n;

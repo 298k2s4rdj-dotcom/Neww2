@@ -7,7 +7,7 @@ import { cafeAnchor, isTalking, secs, talkArm } from "../components/cafe";
 import { Laptop, Phone } from "../components/Props";
 import { CAFE, CafeBackground, CafeChairs, CafeTable } from "../components/Sets";
 import { Say, Shot } from "../components/Shots";
-import { Sound } from "../components/Sound";
+import { Ambience, Sound } from "../components/Sound";
 import { TitleCard } from "../components/TitleCard";
 import { typing } from "../components/poses";
 import { ease, mix } from "../util";
@@ -79,7 +79,10 @@ export const Scene6: React.FC = () => (
   <AbsoluteFill style={{ background: "#000" }}>
     <Shot from={C.cafe.from} to={C.cafe.to} name="Café – full circle">
       <Cafe />
-      <Sound name="keyboard" at={0.3} dur={2} volume={0.4} />
+      <Ambience name="cafe" dur={C.cafe.to - C.cafe.from} volume={0.38} fade={1} />
+      <Sound name="keyboard" at={0.3} dur={2} volume={0.4} fadeOut={0.3} />
+      <Sound name="phone-slide" at={C.phoneSlide} volume={0.7} />
+      <Sound name="cup" at={C.lenaSmile + 1.2} volume={0.25} />
     </Shot>
     <Shot from={C.finalCard.from} to={C.finalCard.to} name="Final card">
       <TitleCard text="ONE PROMPT." sub="Just start. See where it takes you." size={110} />

@@ -8,7 +8,7 @@ import { PaperBall } from "../components/Props";
 import { LaptopCloseup, ModuleScreen } from "../components/Screens";
 import { APT, ApartmentBackground } from "../components/Sets";
 import { ChartCloseup, Say, Shot } from "../components/Shots";
-import { Sound } from "../components/Sound";
+import { Ambience, Repeat, Sound } from "../components/Sound";
 import { WallChart } from "../components/WallChart";
 import type { TimeOfDay } from "../components/palette";
 import { ease, lerpF, mix } from "../util";
@@ -148,9 +148,43 @@ export const Scene2: React.FC = () => {
       })}
       <Shot from={C.crumple.from} to={C.crumple.to} name="Crumple + throw">
         <Crumple />
-        <Sound name="crumple" at={C.crumple.crumpleAt} dur={1.6} />
       </Shot>
+      <Scene2Sound />
     </AbsoluteFill>
+  );
+};
+
+/** Sound design – all times in scene seconds. */
+const Scene2Sound: React.FC = () => {
+  const beatLen = C.beatShot + C.beatChart;
+  const k = C.crumple;
+  return (
+    <>
+      {/* module + sigh */}
+      <Ambience name="room-evening" at={0} dur={C.montageStart} volume={0.4} />
+      <Sound name="click" at={0.5} volume={0.45} />
+      <Sound name="sigh" at={C.sigh.from + 0.7} volume={0.8} />
+      {C.beats.map((b, i) => {
+        const start = C.montageStart + i * beatLen;
+        const room = b.time === "night" ? "room-night" : "room-evening";
+        const xTimes = Array.from({ length: X_PER_BEAT }, (_, j) => start + C.beatShot + 0.2 + ((C.beatChart - 0.5) / X_PER_BEAT) * j);
+        return (
+          <React.Fragment key={i}>
+            <Ambience name={room} at={start} dur={beatLen} volume={0.45} fade={0.3} />
+            {b.place === "fridge" && <Sound name="fridge" at={start + 0.25} volume={0.6} />}
+            {b.place === "sofa" && <Sound name="sofa" at={start + 0.2} dur={1.2} volume={0.3} fadeOut={0.4} />}
+            {i === 1 && <Sound name="sigh" at={start + 1.2} volume={0.5} />}
+            <Repeat name="marker-x" times={xTimes} volume={0.5} />
+          </React.Fragment>
+        );
+      })}
+      {/* crumple + throw */}
+      <Ambience name="room-night" at={k.from} dur={k.to - k.from} volume={0.45} />
+      <Sound name="paper-rip" at={k.from + k.grabAt + 0.4} volume={0.7} />
+      <Sound name="paper-crumple" at={k.from + k.crumpleAt} volume={0.8} />
+      <Sound name="bin" at={k.from + k.throwAt + 0.7} volume={0.8} />
+      <Sound name="sigh" at={k.from + k.thoughtAt - 0.6} volume={0.6} />
+    </>
   );
 };
 

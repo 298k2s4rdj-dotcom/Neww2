@@ -8,7 +8,7 @@ import { cafeAnchor, isTalking, secs, talkArm } from "../components/cafe";
 import { Laptop, PaperBall, Phone } from "../components/Props";
 import { APT, CAFE, ApartmentBackground, CafeBackground, CafeChairs, CafeTable } from "../components/Sets";
 import { ChartCloseup, Say, Shot } from "../components/Shots";
-import { Sound } from "../components/Sound";
+import { Ambience, Sound } from "../components/Sound";
 import { TitleCard } from "../components/TitleCard";
 import { WallChart } from "../components/WallChart";
 import { ease, mix } from "../util";
@@ -105,7 +105,6 @@ export const Scene3: React.FC = () => (
     </Shot>
     <Shot from={C.apartment.from} to={C.apartment.to} name="Chart from the bin">
       <Apartment />
-      <Sound name="crumple" at={C.apartment.pullAt + 1.1} dur={1} volume={0.7} />
     </Shot>
     <Shot from={C.marker.from} to={C.marker.to} name="1 PROMPT marker">
       <Fade inF={4} outF={12}>
@@ -117,5 +116,22 @@ export const Scene3: React.FC = () => (
         />
       </Fade>
     </Shot>
+    <Scene3Sound />
   </AbsoluteFill>
 );
+
+/** Sound design – all times in scene seconds. */
+const Scene3Sound: React.FC = () => {
+  const a = C.apartment;
+  return (
+    <>
+      <Ambience name="cafe" at={C.cafe.from} dur={C.cafe.to - C.cafe.from} volume={0.36} fade={1} />
+      <Sound name="cup" at={C.lines[1].at - 0.3} volume={0.3} />
+      <Sound name="phone-slide" at={C.phoneSlide} volume={0.7} />
+      <Ambience name="room-evening" at={a.from} dur={C.duration - a.from} volume={0.42} />
+      <Sound name="paper-unfold" at={a.from + a.pullAt} volume={0.75} />
+      <Sound name="paper-flip" at={a.from + a.flipAt} volume={0.7} />
+      <Sound name="marker-write" at={C.marker.from + C.marker.writeFrom} dur={C.marker.writeTo - C.marker.writeFrom} volume={0.7} fadeOut={0.2} />
+    </>
+  );
+};

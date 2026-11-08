@@ -8,7 +8,7 @@ import { Laptop } from "../components/Props";
 import { LaptopCloseup, NotesScreen } from "../components/Screens";
 import { APT, ApartmentBackground } from "../components/Sets";
 import { ChartCloseup, Say, Shot } from "../components/Shots";
-import { Sound } from "../components/Sound";
+import { Ambience, Sound } from "../components/Sound";
 import { TitleCard } from "../components/TitleCard";
 import { WallChart } from "../components/WallChart";
 import { typing } from "../components/poses";
@@ -76,6 +76,7 @@ export const Scene5: React.FC = () => {
   const r = C.rain;
   return (
     <AbsoluteFill style={{ background: "#000" }}>
+      <Ambience name="room-evening" at={g.from} dur={g.to - g.from} volume={0.38} />
       <Shot from={g.from} to={g.lookFrom} name="New goal typed">
         <Fade inF={10}>
           <LaptopCloseup ambient="#5a4a3a">
@@ -98,14 +99,19 @@ export const Scene5: React.FC = () => {
       </Shot>
       <Shot from={r.from + r.checkAt} to={r.from + r.checkAt + 2} name="Check in the rain">
         <ChartCloseup id="s5-cc" time="rain" side="back" checks={(fr) => BASE_CHECKS + lerpF(fr, [f(0.3), f(0.9)], [0, 1])} />
-        <Sound name="ding" at={0.3} dur={1.2} volume={0.5} />
+        <Sound name="marker-check" at={0.3} volume={0.65} />
+        <Sound name="ding" at={0.8} volume={0.25} />
       </Shot>
       <Shot from={r.from + r.checkAt + 2} to={r.to} name="Small smile">
         <ContinueRain offset={r.checkAt + 2} />
       </Shot>
       <Shot from={r.from} to={r.to} name="Rain audio">
-        <Sound name="rain" loop volume={(fr) => Math.min(1, fr / 20, (f(r.to - r.from) - fr) / 20) * 0.5} />
-        <Sound name="keyboard" at={r.typeAt} dur={r.checkAt - r.typeAt - 0.4} volume={0.5} />
+        <Ambience name="rain" dur={r.to - r.from} volume={0.6} fade={1.2} />
+        <Ambience name="room-night" dur={r.to - r.from} volume={0.3} fade={1.2} />
+        <Sound name="thunder" at={1.2} volume={0.4} />
+        <Sound name="thunder" at={16} volume={0.25} />
+        <Sound name="sofa" at={r.thoughtTo + 0.1} volume={0.5} />
+        <Sound name="keyboard" at={r.typeAt} dur={r.checkAt - r.typeAt - 0.4} volume={0.45} fadeOut={0.2} />
       </Shot>
       <Shot from={C.title.at} to={C.title.at + TITLE_CARD} name="Title">
         <TitleCard text={C.title.text} />

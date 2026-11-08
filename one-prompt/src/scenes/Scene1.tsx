@@ -8,6 +8,7 @@ import { Laptop, Phone } from "../components/Props";
 import { CourseScreen, LaptopCloseup } from "../components/Screens";
 import { APT, CAFE, ApartmentBackground, CafeBackground, CafeChairs, CafeTable } from "../components/Sets";
 import { ChartCloseup, Say, Shot } from "../components/Shots";
+import { Ambience, Sound } from "../components/Sound";
 import { TitleCard } from "../components/TitleCard";
 import { WallChart } from "../components/WallChart";
 import { ease, mix } from "../util";
@@ -137,6 +138,24 @@ export const Scene1: React.FC = () => (
         </LaptopCloseup>
       </Fade>
     </Shot>
+    <Scene1Sound />
   </AbsoluteFill>
+);
+
+/** Sound design – all times in scene seconds. */
+const Scene1Sound: React.FC = () => (
+  <>
+    {/* café */}
+    <Ambience name="cafe" at={C.cafe.from} dur={C.cafe.to - C.cafe.from} volume={0.38} fade={1} />
+    <Sound name="cup" at={C.cafe.from + 0.8} volume={0.35} />
+    <Sound name="laptop-turn" at={C.lines[0].at - 0.25} volume={0.6} />
+    <Sound name="cup" at={C.lines[1].at + 1.6} volume={0.25} />
+    {/* apartment */}
+    <Ambience name="room-evening" at={C.apartment.from} dur={C.duration - C.apartment.from} volume={0.45} />
+    <Sound name="footsteps" at={C.apartment.from + 0.1} dur={C.pinAt - C.apartment.from - 1} volume={0.55} fadeOut={0.3} />
+    <Sound name="pin" at={C.pinAt - 0.5} volume={0.7} />
+    <Sound name="click" at={C.laptopCloseup.from + 0.5} volume={0.45} />
+    <Sound name="click" at={C.laptopCloseup.from + 2.1} volume={0.35} />
+  </>
 );
 

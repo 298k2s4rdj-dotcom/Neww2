@@ -3,6 +3,7 @@ import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig } from 
 import { f, FPS } from "../config";
 import { SANS } from "../fonts";
 import { Bubble } from "./Bubble";
+import { Sound } from "./Sound";
 import { Camera, Stage } from "./Camera";
 import { PALETTE, TimeOfDay } from "./palette";
 import { WallChart } from "./WallChart";
@@ -29,6 +30,7 @@ export const Say: React.FC<{
     <AbsoluteFill>
       <Bubble durationInFrames={f(to) - f(at)} {...rest} />
     </AbsoluteFill>
+    <Sound name="pop" volume={rest.kind === "thought" ? 0.12 : 0.18} />
   </Sequence>
 );
 

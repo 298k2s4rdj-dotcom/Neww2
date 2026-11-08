@@ -160,10 +160,22 @@ export const sceneStart = (key: SceneKey) => {
 
 export const TOTAL_SECONDS = SCENE_ORDER.reduce((a, k) => a + SCENES[k].duration, 0);
 
-/** Music: quiet bed in scenes 1–3, fades up over the first seconds of scene 4. */
+/**
+ * Music volume per scene (0..1). The score is one continuous piece; these
+ * levels shape it around the story: present but low while MAX gives up,
+ * swelling in scene 4 when the habit starts working.
+ */
 export const MUSIC = {
-  baseVolume: 0.12,
-  fullVolume: 0.5,
-  fadeUpSeconds: 6,
+  levels: { scene1: 0.3, scene2: 0.24, scene3: 0.27, scene4: 0.55, scene5: 0.36, scene6: 0.5 } as Record<SceneKey, number>,
+  /** seconds to glide between scene levels */
+  glideSeconds: 3,
+  /** the fade-up into scene 4 is slower and more noticeable */
+  scene4FadeUpSeconds: 6,
+  fadeInSeconds: 2,
   fadeOutSeconds: 4,
 };
+
+/** Room-tone / ambience master level (multiplies every ambience cue). */
+export const AMBIENCE_LEVEL = 1;
+/** Foley / one-shot master level. */
+export const SFX_LEVEL = 1;

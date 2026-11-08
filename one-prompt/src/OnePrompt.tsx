@@ -18,16 +18,24 @@ const COMPONENTS: Record<SceneKey, React.FC> = {
   scene6: Scene6,
 };
 
-/** Music: quiet bed for scenes 1–3, fades up at the start of scene 4, fades out at the end. */
+/** Music volume: per-scene levels with glides, slower fade-up into scene 4, fade in/out at the edges. */
 const musicVolume = (frame: number) => {
-  const up = sceneStart("scene4") * FPS;
-  const end = TOTAL_SECONDS * FPS;
-  return interpolate(
-    frame,
-    [0, FPS, up, up + MUSIC.fadeUpSeconds * FPS, end - MUSIC.fadeOutSeconds * FPS, end],
-    [0, MUSIC.baseVolume, MUSIC.baseVolume, MUSIC.fullVolume, MUSIC.fullVolume, 0],
+  const t = frame / FPS;
+  let level = MUSIC.levels.scene1;
+  for (const key of SCENE_ORDER) {
+    const start = sceneStart(key);
+    if (t < start) break;
+    const glide = key === "scene4" ? MUSIC.scene4FadeUpSeconds : MUSIC.glideSeconds;
+    const prev = level;
+    level = interpolate(t, [start, start + glide], [prev, MUSIC.levels[key]], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  }
+  const edge = interpolate(
+    t,
+    [0, MUSIC.fadeInSeconds, TOTAL_SECONDS - MUSIC.fadeOutSeconds, TOTAL_SECONDS],
+    [0, 1, 1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
+  return level * edge;
 };
 
 export const OnePrompt: React.FC = () => (
