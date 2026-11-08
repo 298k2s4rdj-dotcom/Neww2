@@ -36,6 +36,12 @@ Neu rendern: `python3 tiere/<tier>/render.py` (QC-Bilder: `--stills`).
 - `mix2/eiffel/eiffelturm_vs_burj_khalifa.mp4` (43,3 s), `mix2/hund/mensch_vs_hund.mp4` (38,8 s), `mix2/mond/mond_vs_erde.mp4` (35,9 s)
 - `mix2/sources.md` (Quellen), `mix2/tiktok.md` (Texte)
 
+## „Rate mal“-Serie (3 Videos)
+
+- `ratemal/blitz/blitz_vs_sonne.mp4`, `ratemal/everest/everest_vs_marianengraben.mp4`, `ratemal/gepard/mensch_vs_gepard.mp4` (je 43,3 s)
+- Jedes Video startet mit „Rate mal: …“ plus gelbem RATE-MAL-Logo und endet mit „Hast du richtig geraten?“
+- `ratemal/sources.md` (Quellen), `ratemal/tiktok.md` (Texte)
+
 ## Layout
 
 Alle Videos nutzen eine exakte 50:50-Teilung (Trennlinie bei x = 540 px). Wichtige Inhalte bleiben trotzdem aus dem rechten TikTok-Rand (140 px) heraus.

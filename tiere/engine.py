@@ -354,7 +354,8 @@ def header(img, gt, title, t, title_a=1.0):
             if side in ("R", "B"):
                 popr = k
     rrect(img, (SPLIT - 270, 168, SPLIT + 270, 238), 35, (0, 0, 0, 150), outline=(255, 255, 255, 60), width=2)
-    for nm, col, x in ((CFG["name_l"], CFG["col_l"], SPLIT - 170), (CFG["name_r"], CFG["col_r"], SPLIT + 170)):
+    for nm, col, x in ((CFG.get("short_l", CFG["name_l"]), CFG["col_l"], SPLIT - 170),
+                       (CFG.get("short_r", CFG["name_r"]), CFG["col_r"], SPLIT + 170)):
         fs = min(32, 32 * 150 / max(1, text_w(nm, 32)))
         text(img, nm, fs, x, 203, fill=col)
     text(img, str(sl), 46, SPLIT - 50, 203, scale=popl, fill=C_HI if popl > 1.01 else WHITE)
@@ -460,7 +461,8 @@ def winner(img, t, t_k, name, cy=VIS_Y + 150):
     if t < t_k:
         return
     p = prog(t, t_k, 0.5)
-    text(img, f"SIEGER: {name}", 80, SPLIT, cy, fill=C_HI, scale=2 - back_out(p), alpha=ease_out(p * 2),
+    fs = min(80, 80 * 820 / max(1, text_w(f"SIEGER: {name}", 80)))
+    text(img, f"SIEGER: {name}", fs, SPLIT, cy, fill=C_HI, scale=2 - back_out(p), alpha=ease_out(p * 2),
          stroke=10, sfill=(160, 20, 0), rotate=-4)
     confetti(img, t, t_k)
 
@@ -572,6 +574,20 @@ def outro(img, sc, t, gt, mascot_l, mascot_r, line1="Dein Tipp?", line2="Ab in d
             dd.line((ax - 110, 1190, ax, 1190), fill=C_HI, width=14)
             dd.polygon([(ax + 40, 1190), (ax - 5, 1155), (ax - 5, 1225)], fill=C_HI)
         text(img, line2, 40, ax - 140, 1190, alpha=a, stroke=5, path=FONT_XB, anchor="rm")
+
+
+def brand(img, t, gt, y=300, a=1.0):
+    """Kanal-Logo „RATE MAL?“ als gelbe Pille (für Hook und Outro)."""
+    p = back_out(prog(t, 0.0, 0.45)) * a
+    if p <= 0.03:
+        return
+    w, h = 210 * p, 52 * p
+    rrect(img, (SPLIT - w, y - h, SPLIT + w, y + h), int(h), (255, 226, 60, int(255 * min(1, a))),
+          outline=(30, 20, 60, 255), width=5)
+    text(img, "RATE MAL", 58 * p, SPLIT - 28 * p, y + 2, fill=(30, 20, 60))
+    q = 1 + 0.15 * math.sin(gt * 7)
+    text(img, "?", 70 * p * q, SPLIT + 165 * p, y + 2, fill=(255, 70, 70), stroke=4, sfill=(30, 20, 60),
+         rotate=10 * math.sin(gt * 5))
 
 
 # ------------------------------------------------------------------ render
