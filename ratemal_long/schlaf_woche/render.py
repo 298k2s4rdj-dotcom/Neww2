@@ -796,6 +796,8 @@ def snow(img, cx, cy, gt, a):
 
 
 def phone(img, cx, cy, s, gt, a=1.0):
+    if s < 0.3:
+        return
     d = ImageDraw.Draw(img)
     d.rounded_rectangle((cx - 110 * s, cy - 200 * s, cx + 110 * s, cy + 200 * s), int(30 * s), fill=(30, 30, 40),
                         outline=WHITE, width=max(2, int(6 * s)))
@@ -804,7 +806,7 @@ def phone(img, cx, cy, s, gt, a=1.0):
     d.rounded_rectangle((cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2), 8, outline=WHITE,
                         width=max(2, int(5 * s)))
     d.rectangle((cx + bw / 2 + 2, cy - bh / 5, cx + bw / 2 + 10 * s, cy + bh / 5), fill=WHITE)
-    if int(gt * 3) % 2 == 0:
+    if int(gt * 3) % 2 == 0 and bh > 16:
         d.rectangle((cx - bw / 2 + 6, cy - bh / 2 + 6, cx - bw / 2 + 14, cy + bh / 2 - 6), fill=RED)
     text(img, "1 %", 56 * s, cx, cy + 90 * s, fill=RED)
 
