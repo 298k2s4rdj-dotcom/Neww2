@@ -416,8 +416,14 @@ def render_frame(fi):
     return img.convert("RGB")
 
 
+UPSCALE = 2 if "--4k" in sys.argv else 1
+
+
 def render_bytes(fi):
-    return render_frame(fi).tobytes()
+    im = render_frame(fi)
+    if UPSCALE > 1:
+        im = im.resize((W * UPSCALE, H * UPSCALE), Image.LANCZOS)
+    return im.tobytes()
 
 
 # ------------------------------------------------------------------ audio
@@ -554,9 +560,12 @@ def main():
         print(f"  {s['key']:8s} start {s['start']:7.2f} dur {s['dur']:6.2f}")
     audio = build_audio(CFG["events"]())
     out = os.path.join(here, CFG["out"])
+    if UPSCALE > 1:
+        out = out.replace(".mp4", "_4k.mp4")
     ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                           "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", audio,
-                           "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p",
+                           "-s", f"{W * UPSCALE}x{H * UPSCALE}", "-r", str(FPS), "-i", "-", "-i", audio,
+                           "-c:v", "libx264", "-preset", "medium", "-crf", "19" if UPSCALE == 1 else "20",
+                           "-af", "volume=9dB,alimiter=limit=0.84:level=false", "-pix_fmt", "yuv420p",
                            "-profile:v", "high", "-ac", "2", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                            "-movflags", "+faststart", "-shortest", out], stdin=subprocess.PIPE)
     with Pool(4) as pool:
