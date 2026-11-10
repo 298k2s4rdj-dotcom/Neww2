@@ -25,9 +25,9 @@ import longlib as L  # noqa: E402
 from longlib import text, text_w, NAVY, YELLOW, WHITE, RED, GREEN, FONT_XB, ease_out, ease_io, back_out, prog  # noqa: E402
 
 PW, PH, FPS, SR = 1080, 1920, 30, 48000
-CROP = (180, 130, 1740, 1007)              # 16:9 window of the landscape frame
-PANEL = (20, 580, 1060, 1165)             # 1000x563 in the portrait frame
-SUB_Y = 1410
+CROP = (60, 115, 1860, 1128)              # 1800x1013: whole scene incl. edges              # 16:9 window of the landscape frame
+PANEL = (90, 600, 990, 1106)               # 900x506, 90 px margin each side             # 1000x563 in the portrait frame
+SUB_Y = 1340
 RAW = os.path.join(HERE, "audio_raw")
 BUILD = os.path.join(HERE, "build")
 OUT = os.path.join(HERE, "shorts")
@@ -119,7 +119,7 @@ def paste_panel(img, src, s=1.0):
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     src = src.resize((w, h), Image.BILINEAR)
     bx, by = int(cx - w / 2), int(cy - h / 2)
-    ImageDraw.Draw(img).rounded_rectangle((bx - 8, by - 8, bx + w + 8, by + h + 8), 40, fill=WHITE)
+    ImageDraw.Draw(img).rounded_rectangle((bx - 7, by - 7, bx + w + 7, by + h + 7), 38, fill=WHITE)
     img.paste(src, (bx, by), panel_mask(w, h))
 
 
@@ -136,7 +136,7 @@ def headline(img, lines, t, a=1.0, big=False):
     for i, ln in enumerate(lines):
         p = back_out(prog(t, 0.05 + 0.12 * i, 0.45)) if big else 1.0
         size = 104 if big else 88
-        size = min(size, size * 980 / max(1, text_w(ln, size)))
+        size = min(size, size * 860 / max(1, text_w(ln, size)))
         col = YELLOW if i == 0 else WHITE
         text(img, ln, size, PW / 2, y + i * (size * 1.08), fill=col, scale=max(0.05, p), alpha=a, stroke=10,
              sfill=NAVY, rotate=-2)
@@ -148,12 +148,12 @@ def mini_hud(img, seg, t, gt):
     k = ease_io(prog(t, 0, seg["dur"]))
     h = R.lerp(seg["hh"][0], seg["hh"][1], k)
     b = R.lerp(seg["bb"][0], seg["bb"][1], k)
-    L.pill(img, seg["label"], 230, 1250, YELLOW, 1.0, size=46, path=L.FONT_BLACK)
-    text(img, f"{int(round(h))} h WACH", 58, 610, 1250, fill=WHITE, stroke=7, sfill=NAVY)
-    R.battery(img, 900, 1250, b, w=120, h=58, gt=gt)
+    L.pill(img, seg["label"], 260, 1190, YELLOW, 1.0, size=46, path=L.FONT_BLACK)
+    text(img, f"{int(round(h))} h WACH", 54, 560, 1190, fill=WHITE, stroke=7, sfill=NAVY)
+    R.battery(img, 810, 1190, b, w=100, h=50, gt=gt)
 
 
-def subtitles(img, toks, t, y=SUB_Y, size=86, maxw=960):
+def subtitles(img, toks, t, y=SUB_Y, size=80, maxw=840):
     if not toks:
         return
     chunks, cur = [], []
@@ -197,7 +197,7 @@ _thumb = None
 def thumb():
     global _thumb
     if _thumb is None:
-        _thumb = Image.open(os.path.join(HERE, "thumbnail_4k.png")).convert("RGBA").resize((1040, 585), Image.LANCZOS)
+        _thumb = Image.open(os.path.join(HERE, "thumbnail_4k.png")).convert("RGBA").resize((900, 506), Image.LANCZOS)
     return _thumb
 
 
@@ -215,7 +215,7 @@ def render_frame(fi):
         paste_panel(img, land_frame(seg, min(seg["dur"] - 0.05, st + t)), 0.9 + 0.1 * ease_out(prog(t, 0, 0.4)))
         headline(img, spec["head"], t, big=True)
         q = 1 + 0.12 * math.sin(gt * 7)
-        text(img, "?", 170 * q, 940, 1220, fill=RED, stroke=10, sfill=NAVY, rotate=12)
+        text(img, "?", 150 * q, 900, 1170, fill=RED, stroke=10, sfill=NAVY, rotate=12)
     elif p["kind"] == "land":
         seg = p["seg"]
         paste_panel(img, land_frame(seg, t))
@@ -225,15 +225,15 @@ def render_frame(fi):
         a = ease_out(prog(t, 0, 0.4))
         sc = 0.92 + 0.08 * back_out(prog(t, 0, 0.5)) + 0.015 * math.sin(gt * 5)
         paste_panel(img, thumb(), sc)
-        text(img, "GANZES VIDEO", 96, PW / 2, 430, fill=YELLOW, stroke=10, sfill=NAVY, alpha=a, rotate=-2)
-        text(img, "AUF DEM KANAL", 80, PW / 2, 530, fill=WHITE, stroke=9, sfill=NAVY, alpha=a, rotate=-2)
+        text(img, "GANZES VIDEO", 88, PW / 2, 430, fill=YELLOW, stroke=10, sfill=NAVY, alpha=a, rotate=-2)
+        text(img, "AUF DEM KANAL", 74, PW / 2, 525, fill=WHITE, stroke=9, sfill=NAVY, alpha=a, rotate=-2)
         rb = back_out(prog(t, 0.6, 0.5))
         if rb > 0.03:
-            L.rrect(img, (PW / 2 - 300 * rb, 1235 - 62 * rb, PW / 2 + 300 * rb, 1235 + 62 * rb), int(62 * rb),
+            L.rrect(img, (PW / 2 - 280 * rb, 1200 - 58 * rb, PW / 2 + 280 * rb, 1200 + 58 * rb), int(58 * rb),
                     (230, 30, 40, 255))
-            text(img, "▶ JETZT ANSEHEN", 56 * rb, PW / 2, 1237, fill=WHITE)
+            text(img, "▶ JETZT ANSEHEN", 52 * rb, PW / 2, 1202, fill=WHITE)
     if p["kind"] != "cta" and gt > 4.0:
-        L.pill(img, "GANZES VIDEO ▶ KANAL", PW / 2, 1555, WHITE, 0.9, size=30)
+        L.pill(img, "GANZES VIDEO ▶ KANAL", PW / 2, 1480, WHITE, 0.9, size=30)
     subtitles(img, p["toks"], t)
     return img.convert("RGB")
 
