@@ -613,10 +613,12 @@ def main():
                            "-profile:v", "high", "-ac", "2", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                            "-movflags", "+faststart", "-shortest", out], stdin=subprocess.PIPE)
     with Pool(4) as pool:
-        for k, b in enumerate(pool.imap(render_bytes, range(nfr), chunksize=8)):
-            ff.stdin.write(b)
-            if k % 1500 == 0:
-                print("frame", k, flush=True)
+        batch = 32   # bounded batches: keeps memory flat even for 4K frames
+        for k0 in range(0, nfr, batch):
+            for b in pool.map(render_bytes, range(k0, min(nfr, k0 + batch)), chunksize=2):
+                ff.stdin.write(b)
+            if k0 % 1504 == 0:
+                print("frame", k0, flush=True)
     ff.stdin.close()
     ff.wait()
-    print("wrote", out)
+    print("wrote", out, "frames", nfr)
