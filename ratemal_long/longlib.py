@@ -456,6 +456,49 @@ def _thump():
     return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 10)
 
 
+def _beep():
+    tt = np.arange(int(0.32 * SR)) / SR
+    y = np.sin(2 * np.pi * 1320 * tt) * ((tt < 0.12) | (tt > 0.2)) * (tt < 0.32)
+    return y * 0.7
+
+
+def _glitch(r):
+    m = int(0.35 * SR)
+    y = r.standard_normal(m)
+    y = np.convolve(y, np.ones(6) / 6, mode="same")
+    gate = (np.sin(2 * np.pi * 23 * np.arange(m) / SR) > 0).astype(float)
+    return y * gate * np.linspace(1, 0.2, m) * 0.6
+
+
+def _heart():
+    a = _thump()
+    out = np.zeros(int(0.7 * SR))
+    out[:len(a)] += a
+    k = int(0.24 * SR)
+    out[k:k + len(a)] += a[:len(out) - k] * 0.7
+    return out
+
+
+def _rise(r, d=0.7):
+    m = int(d * SR)
+    tt = np.arange(m) / SR
+    f = 300 + 900 * (tt / d) ** 2
+    y = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.linspace(0, np.pi, m)) ** 2 * 0.4
+    y += _whoosh(r, d) * 0.5
+    return y
+
+
+def _alarm():
+    tt = np.arange(int(0.9 * SR)) / SR
+    y = np.sign(np.sin(2 * np.pi * 1800 * tt)) * 0.25 * (np.sin(2 * np.pi * 14 * tt) > 0)
+    return y * np.exp(-tt * 1.5)
+
+
+def _ding():
+    tt = np.arange(int(0.7 * SR)) / SR
+    return (np.sin(2 * np.pi * 1568 * tt) + 0.5 * np.sin(2 * np.pi * 2349 * tt)) * np.exp(-tt * 6) / 1.5
+
+
 def synth(events):
     """events: list of (gt, kind, gain)"""
     n = int((TOTAL + 1.0) * SR)
@@ -469,7 +512,8 @@ def synth(events):
             out[a:b] += sig[:b - a] * gain
 
     lib = dict(whoosh=lambda: _whoosh(r), tick=_tick, tock=lambda: _tick(1500, 0.05), pop=_pop, chime=_chime,
-               thump=_thump)
+               thump=_thump, beep=_beep, glitch=lambda: _glitch(r), heart=_heart, rise=lambda: _rise(r),
+               alarm=_alarm, ding=_ding)
     for gt, kind, gain in events:
         add(lib[kind](), gt, gain)
     # music bed: soft pad + gentle pluck arpeggio (A minor / F / C / G), 96 bpm
@@ -565,7 +609,7 @@ def main():
     ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                            "-s", f"{W * UPSCALE}x{H * UPSCALE}", "-r", str(FPS), "-i", "-", "-i", audio,
                            "-c:v", "libx264", "-preset", "medium", "-crf", "19" if UPSCALE == 1 else "20",
-                           "-af", "volume=9dB,alimiter=limit=0.84:level=false", "-pix_fmt", "yuv420p",
+                           "-af", "volume=10.9dB,alimiter=limit=0.84:level=false", "-pix_fmt", "yuv420p",
                            "-profile:v", "high", "-ac", "2", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                            "-movflags", "+faststart", "-shortest", out], stdin=subprocess.PIPE)
     with Pool(4) as pool:
