@@ -471,7 +471,7 @@ def sc_s04(img, seg, t, gt):
 
 def sc_s06(img, seg, t, gt):
     hud(img, seg, t, gt)
-    x0, x1, y0, y1 = 300, 1620, 230, 800
+    x0, x1, y0, y1 = 300, 1620, 270, 800
     rrect(img, (x0 - 40, y0 - 40, x1 + 40, y1 + 60), 40, DARK + (200,))
     d = ImageDraw.Draw(img)
 
@@ -482,7 +482,7 @@ def sc_s06(img, seg, t, gt):
         return 0.15 + 0.8 * h / 48
 
     def circ(h):  # circadian alerting, peak late evening, trough early morning
-        return 0.5 + 0.35 * math.sin((h - 2) / 24 * 2 * math.pi)
+        return 0.5 + 0.35 * math.sin((h - 4) / 24 * 2 * math.pi)
 
     def alert(h):
         return max(0.03, min(1.0, 0.75 + circ(h) * 0.55 - press(h)))
@@ -499,10 +499,10 @@ def sc_s06(img, seg, t, gt):
     mh = lerp(24, 27, prog(t, 0, seg["dur"]))
     pm = ap(seg, t, "zweiten")
     if pm > 0.02:
-        mx, my = X(25), Y(alert(25))
+        mx, my = X(26), Y(alert(26))
         d.ellipse((mx - 20, my - 20, mx + 20, my + 20), fill=YELLOW)
-        d.ellipse((X(25) - 45, y0 + 10, X(25) + 45, y0 + 100), fill=(255, 220, 90))
-        label(img, "MORGEN-BOOST", X(25), y0 + 140, pm, col=YELLOW, size=28)
+        d.ellipse((X(26) - 40, y0 + 10, X(26) + 40, y0 + 90), fill=(255, 220, 90))
+        label(img, "MORGEN-BOOST", X(26), y0 + 125, pm, col=YELLOW, size=28)
     pu = ap(seg, t, "Uhr")
     if pu > 0.02:
         chip(img, "INNERE UHR: WACH-SIGNAL", 960, 150, YELLOW, pu, size=32)
@@ -724,8 +724,8 @@ def sc_s11(img, seg, t, gt):
     for k in range(5):
         ld.line((40, 320 + k * 40, 420, 320 + k * 40), fill=(170, 160, 140), width=10)
     sp = L.E.person_sprite(230, (90, 80, 70))
-    lay.paste(sp, (540, 300), sp)
-    text(lay, "Randy Gardner, 17", 30, 590, 520, fill=(80, 60, 40), path=FONT_XB)
+    lay.paste(sp, (560, 250), sp)
+    text(lay, "Randy Gardner, 17", 30, 560, 520, fill=(80, 60, 40), path=FONT_XB)
     lay = lay.rotate(-3, resample=Image.BICUBIC, expand=True)
     paste_c(img, lay, 620, 500, p)
     t264 = tw(seg, "264")
@@ -900,7 +900,7 @@ def sc_s14(img, seg, t, gt):
 def sc_s15(img, seg, t, gt):
     hud(img, seg, t, gt)
     for w_, x, col, hh, lab, n in (("Erwachsene", 640, ORANGE, 420, "ERWACHSENE", 7),
-                                    ("Jugendliche", 1280, BLUE, 340, "JUGENDLICHE", 9)):
+                                    ("Jugendliche", 1280, BLUE, 340, "JUGENDLICHE", 10)):
         p = pop_scale(seg, t, w_)
         if p <= 0.02:
             continue
@@ -917,7 +917,7 @@ def sc_s15(img, seg, t, gt):
         text(img, txt, 70, x + 95, 230, fill=WHITE, stroke=7, sfill=NAVY, alpha=k)
     pm = ap(seg, t, "Schlafmedizinern")
     if pm > 0.02:
-        label(img, "EMPFEHLUNG SCHLAFMEDIZIN (AASM)", 1500, 200, pm, size=26)
+        label(img, "EMPFEHLUNG DER SCHLAFMEDIZIN (AASM)", 1560, 520, pm, size=28)
 
 
 def sc_s16(img, seg, t, gt):
