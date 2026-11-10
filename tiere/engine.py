@@ -674,6 +674,13 @@ def synth_sfx():
             add(tick(), t0 + k, 0.05)
             k += 0.06 + 0.10 * (k / d) ** 2
     for gtf, kind in CFG.get("extra_sfx", lambda: [])():
+        if kind == "pop":
+            m = int(0.12 * SR)
+            tt = np.arange(m) / SR
+            f = 500 + 900 * np.exp(-tt * 40)
+            add(np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 35), gtf, 0.10)
+        elif kind == "thump":
+            add(thump(), gtf, 0.14)
         if kind == "beat":
             m = int(0.25 * SR)
             tt = np.arange(m) / SR
