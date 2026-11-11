@@ -64,8 +64,24 @@ def wrap(words, size, maxw):
     return lines
 
 
+SEG = {}
+
+
+def W_(word, n=1, fallback=1.0):
+    """time (in scene) of the n-th spoken occurrence of word"""
+    c = 0
+    for tx, st, en in SEG.get("words", []):
+        if tx.strip(".,!?:;").lower() == word.lower():
+            c += 1
+            if c == n:
+                return st
+    return fallback
+
+
 def caption(img, s, t, size=72, y=CAP_Y, start=0.25, hl=()):
-    """word-by-word reveal; words in hl are drawn yellow."""
+    """word-by-word reveal; words in hl are drawn yellow. With a voice track the words follow the speech."""
+    if SEG.get("words"):
+        return voice_caption(img, t, size, y, hl)
     words = s.split()
     lines = wrap(words, size, 900)
     lh = size * 1.22
@@ -85,6 +101,51 @@ def caption(img, s, t, size=72, y=CAP_Y, start=0.25, hl=()):
             x += wd + 22
             k += 1
     return start + len(words) / WPS
+
+
+def voice_caption(img, t, size, y, hl):
+    ws = SEG["words"]
+    # chunk into sentences / max 9 words; show the chunk containing the current time
+    chunks, cur = [], []
+    for w in ws:
+        cur.append(w)
+        if w[0][-1] in ".!?" or len(cur) >= 8:
+            chunks.append(cur)
+            cur = []
+    if cur:
+        chunks.append(cur)
+    merged = []
+    for ch in chunks:
+        if merged and len(ch) < 3 and len(merged[-1]) + len(ch) <= 11:
+            merged[-1] = merged[-1] + ch
+        else:
+            merged.append(ch)
+    chunks = merged
+    active = chunks[0]
+    for i, ch in enumerate(chunks):
+        if t >= ch[0][1] - 0.15:
+            active = ch
+    hls = {h.strip(".,!?:").upper() for h in hl}
+    words = [w[0] for w in active]
+    lines = wrap(words, size, 900)
+    lh = size * 1.22
+    y0 = y - lh * (len(lines) - 1) / 2
+    k = 0
+    for li, ln in enumerate(lines):
+        widths = [text_w(w, size) for w in ln]
+        total = sum(widths) + 22 * (len(ln) - 1)
+        x = W / 2 - total / 2
+        for w, wd in zip(ln, widths):
+            tx, st, en = active[k]
+            p = ease_out(prog(t, st - 0.08, 0.15))
+            if p > 0.02:
+                now = st - 0.03 <= t < en + 0.05
+                col = YELLOW if (now or w.strip(".,!?:").upper() in hls) else WHITE
+                text(img, w, size, x + wd / 2, y0 + li * lh + 12 * (1 - p), fill=col, alpha=p, stroke=8,
+                     sfill=(0, 0, 0), scale=(1.08 if now else 1.0) * (0.9 + 0.1 * back_out(p)))
+            x += wd + 22
+            k += 1
+    return 0
 
 
 def word_times(s, start=0.25):
@@ -179,14 +240,15 @@ def hf_c1(img, t, gt, d):
 
 
 def hf_c2(img, t, gt, d):
-    v = 1.0 - 0.6 * ease_io(prog(t, 0.5, 0.8)) + 1.2 * ease_io(prog(t, 2.0, 0.6))
+    tz, tw_ = W_("zusammen", fallback=0.5), W_("weiten", fallback=2.0)
+    v = 1.0 - 0.6 * ease_io(prog(t, tz - 0.2, 0.6)) + 1.2 * ease_io(prog(t, tw_ - 0.1, 0.5))
     mouth_panel(img, t, gt, cold=1.0, vessel=v)
-    pill(img, "ZUSAMMEN …" if t < 2.0 else "… UND WIEDER WEIT!", 540, 400, RED, 1.0)
+    pill(img, "ZUSAMMEN …" if t < tw_ else "… UND WIEDER WEIT!", 540, 400, RED, 1.0)
     caption(img, "Sie ziehen sich zusammen – und weiten sich gleich danach wieder stark.", t, hl=("ZUSAMMEN", "WEITEN"))
 
 
 def hf_c3(img, t, gt, d):
-    mouth_panel(img, t, gt, cold=1.0, vessel=1.4, nerve=ease_out(prog(t, 0.4, 1.0)))
+    mouth_panel(img, t, gt, cold=1.0, vessel=1.4, nerve=ease_out(prog(t, W_("Nerv", fallback=0.4) - 0.1, 1.4)))
     pill(img, "GESICHTSNERV", 540, 400, YELLOW, ease_out(prog(t, 0.2, 0.3)))
     caption(img, "Ein Gesichtsnerv meldet das ans Gehirn – und du spürst den Schmerz in der STIRN!", t,
             hl=("STIRN!",))
@@ -205,7 +267,7 @@ def brain(img, cx, cy, s):
 
 def hf_c4(img, t, gt, d):
     brain(img, 540, 800, 1.2)
-    check(img, 820, 640, 90, ease_out(prog(t, 1.2, 0.4)))
+    check(img, 820, 640, 90, ease_out(prog(t, W_("nicht", fallback=1.2) - 0.1, 0.4)))
     pill(img, "KEIN EINFRIEREN", 540, 400, GREEN, ease_out(prog(t, 0.3, 0.3)))
     caption(img, "Keine Sorge: Dein Gehirn friert NICHT ein. Meist ist es nach wenigen Sekunden vorbei.", t,
             hl=("NICHT",))
@@ -227,11 +289,11 @@ def hf_tip(img, t, gt, d):
     head_profile(img, 380, 820, 0.85)
     dd = ImageDraw.Draw(img)
     dd.chord((420, 820, 650, 980), 180, 360, fill=(170, 60, 80))
-    up = ease_io(prog(t, 0.8, 0.6))
+    up = ease_io(prog(t, W_("Zunge", fallback=0.8) - 0.1, 0.6))
     dd.ellipse((440, 900 - 50 * up, 640, 980 - 50 * up), fill=(255, 120, 140))
     dd.line((540, 1000, 540, 900 - 40 * up), fill=YELLOW, width=10)
     dd.polygon([(515, 930 - 40 * up), (565, 930 - 40 * up), (540, 890 - 40 * up)], fill=YELLOW)
-    p = back_out(prog(t, 2.2, 0.5))
+    p = back_out(prog(t, W_("Warmes", fallback=2.2) - 0.2, 0.5))
     if p > 0.03:
         cup(img, 840, 850, p, gt)
     caption(img, "Zunge fest gegen den Gaumen drücken – oder etwas Warmes trinken!", t, hl=("ZUNGE", "WARMES"))
@@ -306,18 +368,20 @@ def oh_c2(img, t, gt, d):
 
 
 def oh_c3(img, t, gt, d):
-    ear_panel(img, t, gt, push=ease_out(prog(t, 0.3, 0.8)))
-    if t > 1.2:
-        pill(img, "AUA!", 540, 400, RED, ease_out(prog(t, 1.2, 0.3)), size=56)
+    ear_panel(img, t, gt, push=ease_out(prog(t, W_("wölbt", fallback=0.3) - 0.3, 0.8)))
+    ta = W_("Druck", fallback=1.2)
+    if t > ta:
+        pill(img, "AUA!", 540, 400, RED, ease_out(prog(t, ta, 0.3)), size=56)
     caption(img, "Die Luft dahinter kommt nicht hinterher: Das Trommelfell wölbt sich nach innen – das drückt!", t,
             hl=("INNEN",))
 
 
 def oh_c4(img, t, gt, d):
-    op = ease_out(prog(t, 0.6, 0.6))
+    op = ease_out(prog(t, W_("Ohrtrompete", fallback=0.6) - 0.2, 0.6))
     ear_panel(img, t, gt, push=1 - op, tube=op)
-    if t > 1.6:
-        stamp(img, "PLOPP!", t, 1.6, 540, 400, size=150, rot=-6)
+    tp = W_("Plopp", fallback=1.6)
+    if t > tp - 0.05:
+        stamp(img, "PLOPP!", t, tp - 0.05, 540, 400, size=150, rot=-6)
     caption(img, "Die Ohrtrompete öffnet sich, der Druck gleicht sich aus – PLOPP!", t, hl=("OHRTROMPETE", "PLOPP!"))
 
 
@@ -330,15 +394,17 @@ def gum(img, cx, cy, s, gt):
 
 def oh_tip(img, t, gt, d):
     pill(img, "SO HILFST DU NACH", 540, 400, YELLOW, ease_out(prog(t, 0.2, 0.3)), size=44)
-    items = [("SCHLUCKEN", 0.4), ("GÄHNEN", 1.1), ("KAUGUMMI", 1.8)]
+    items = [("SCHLUCKEN", W_("Schlucken", fallback=0.4) - 0.1), ("GÄHNEN", W_("Gähnen", fallback=1.1) - 0.1),
+             ("KAUGUMMI", W_("Kaugummi", fallback=1.8) - 0.1)]
     for k, (lab, t0) in enumerate(items):
         p = back_out(prog(t, t0, 0.45))
         if p > 0.03:
             y = 640 + k * 160
             check(img, 260, y, 50, min(1, p))
             text(img, lab, 64 * min(1.1, p), 560, y, fill=WHITE, stroke=7, sfill=NAVY)
-    if t > 2.3:
-        gum(img, 870, 800, back_out(prog(t, 2.3, 0.5)), gt)
+    tg = W_("Kaugummi", fallback=2.0) + 0.3
+    if t > tg:
+        gum(img, 870, 800, back_out(prog(t, tg, 0.5)), gt)
     caption(img, "Schlucken, gähnen oder Kaugummi kauen. Babys hilft Trinken beim Landen.", t,
             hl=("SCHLUCKEN,", "GÄHNEN", "KAUGUMMI"))
 
@@ -398,7 +464,7 @@ def snow(img, cx, cy, gt):
 
 
 def gh_c2(img, t, gt, d):
-    c = ease_io(prog(t, 1.0, 0.6))
+    c = ease_io(prog(t, W_("zusammen", fallback=1.0) - 0.3, 0.6))
     skin_panel(img, t, gt, contract=c)
     snow(img, 220, 600, gt)
     na = ease_out(prog(t, 0.6, 0.3))
@@ -414,7 +480,7 @@ def gh_c2(img, t, gt, d):
 
 def gh_c3(img, t, gt, d):
     arm(img, 540, 800, 1.0, gt)
-    stamp(img, "GÄNSEHAUT!", t, 0.4, 540, 400, size=120, rot=-5)
+    stamp(img, "GÄNSEHAUT!", t, W_("Gänsehaut", fallback=0.4) - 0.1, 540, 400, size=120, rot=-5)
     caption(img, "Um jedes Haar wölbt sich die Haut – fertig sind die kleinen Hügel.", t, hl=("HÜGEL.",))
 
 
@@ -435,7 +501,7 @@ def cat(img, cx, cy, fluff, gt):
 
 
 def gh_c4(img, t, gt, d):
-    f = ease_out(prog(t, 0.6, 0.6))
+    f = ease_out(prog(t, W_("aufgeplusterte", fallback=0.6) - 0.2, 0.6))
     cat(img, 540, 820, f, gt)
     pill(img, "ERBE UNSERER VORFAHREN", 540, 400, YELLOW, ease_out(prog(t, 0.2, 0.3)), size=38)
     caption(img, "Ein Erbe unserer Vorfahren: Aufgeplustertes Fell hält warm – und lässt Tiere größer wirken.", t,
@@ -453,9 +519,10 @@ def outro(img, t, gt, d):
                                      (cx + 10 * p, cy + bh - 2)], fill=(255, 255, 255))
         text(img, "Hättest du's gewusst?", 56 * p, cx, cy - 50, fill=(40, 40, 70))
         text(img, "Ja / Nein", 70 * p, cx, cy + 60, fill=(255, 120, 0))
-    if t > 1.0:
-        stamp(img, "RATE MAL!", t, 1.0, 540, 1000, size=150, rot=-6)
-        E.confetti(img, t, 1.0)
+    tr = W_("Kommentare", fallback=1.0) + 0.5
+    if t > tr:
+        stamp(img, "RATE MAL!", t, tr, 540, 1000, size=150, rot=-6)
+        E.confetti(img, t, tr)
     caption(img, "Schreib's in die Kommentare!", t, hl=("KOMMENTARE!",), start=1.4)
 
 
@@ -490,13 +557,26 @@ CUR = {}
 
 def init(name):
     spec = SHORTS[name]
+    CUR["name"] = name
     CUR.clear()
     CUR.update(spec)
     CUR["BG"] = make_bg(*spec["bg"])
     t, segs = 0.0, []
-    for fn, dur, cap in spec["scenes"]:
-        dur = max(dur, 0.25 + len(cap.split()) / WPS + 1.4)
-        segs.append(dict(fn=fn, start=t, dur=dur, cap=cap))
+    import json as _json
+    for i, (fn, dur, cap) in enumerate(spec["scenes"]):
+        key = "outro" if fn is outro else f"{name}_{i}"
+        mp3 = os.path.join(HERE, "audio", key + ".mp3")
+        seg = dict(fn=fn, start=t, cap=cap)
+        if os.path.exists(mp3):
+            ws = _json.load(open(os.path.join(HERE, "audio", key + ".words.json")))["words"]
+            pre = 0.25
+            seg["words"] = [(w["text"], w["start"] + pre, w["end"] + pre) for w in ws]
+            seg["mp3"], seg["pre"] = mp3, pre
+            dur = pre + ws[-1]["end"] + (1.8 if fn is outro else 0.55)
+        else:
+            dur = max(dur, 0.25 + len(cap.split()) / WPS + 1.4)
+        seg["dur"] = dur
+        segs.append(seg)
         t += dur
     CUR["segs"], CUR["total"] = segs, t
 
@@ -513,10 +593,14 @@ def render_frame(fi):
     s = seg_at(gt)
     t = gt - s["start"]
     img = CUR["BG"].copy()
+    SEG.clear()
+    SEG.update(s)
     s["fn"](img, t, gt, None)
     if t < 0.25 and s is not CUR["segs"][0]:
         prev = CUR["segs"][CUR["segs"].index(s) - 1]
         pimg = CUR["BG"].copy()
+        SEG.clear()
+        SEG.update(prev)
         prev["fn"](pimg, prev["dur"] - 0.01, prev["start"] + prev["dur"] - 0.01, None)
         img = Image.blend(pimg, img, ease_io(t / 0.25))
     return img.convert("RGB")
@@ -526,22 +610,34 @@ def render_bytes(fi):
     return render_frame(fi).tobytes()
 
 
+def seg_word(sg, word, fallback):
+    for tx, st, en in sg.get("words", []):
+        if tx.strip(".,!?:;").lower() == word.lower():
+            return st
+    return fallback
+
+
 def events():
     ev = []
+    keys = {hf_c3: ("Stirn", "thump"), oh_c4: ("Plopp", "thump"), gh_c3: ("Gänsehaut", "thump"),
+            hf_c4: ("nicht", "ding"), oh_tip: ("Kaugummi", "ding"), hf_c2: ("weiten", "pop"),
+            oh_c3: ("wölbt", "pop"), gh_c2: ("zusammen", "pop"), gh_c4: ("aufgeplusterte", "pop"),
+            hf_tip: ("Warmes", "pop")}
     for i, s in enumerate(CUR["segs"]):
         st = s["start"]
         if i > 0:
             ev += [(st - 0.1, "whoosh", 0.10)]
         ev += [(st + 0.3, "pop", 0.08)]
-        for k, tt in enumerate(word_times(s["cap"])):
-            if k % 3 == 0:
-                ev.append((st + tt, "tick", 0.05))
-        if s["fn"] in (hf_c3, oh_c4, gh_c3):
-            ev.append((st + (1.6 if s["fn"] is oh_c4 else 0.5), "thump", 0.15))
+        if not s.get("words"):
+            for k, tt in enumerate(word_times(s["cap"])):
+                if k % 3 == 0:
+                    ev.append((st + tt, "tick", 0.05))
+        if s["fn"] in keys:
+            w, kind = keys[s["fn"]]
+            ev.append((st + seg_word(s, w, 1.0) - 0.05, kind, 0.14 if kind == "thump" else 0.10))
         if s["fn"] is outro:
-            ev += [(st + 1.0, "chime", 0.12), (st + 1.0, "thump", 0.12)]
-        if s["fn"] in (hf_c4, oh_tip):
-            ev.append((st + 1.2, "ding", 0.10))
+            tr = seg_word(s, "Kommentare", 1.0) + 0.5
+            ev += [(st + tr, "chime", 0.12), (st + tr, "thump", 0.12)]
     return ev
 
 
@@ -549,10 +645,21 @@ def make(name):
     init(name)
     LL.TOTAL = CUR["total"]
     mix = LL.synth(events())
-    mix = mix + 0.0 * mix
-    # louder music bed: no voice to duck under
-    tt = np.arange(len(mix)) / SR
-    mix = np.clip(mix * 2.2, -0.98, 0.98)
+    voiced = any(sg.get("mp3") for sg in CUR["segs"])
+    if voiced:
+        voice = np.zeros(len(mix))
+        for sg in CUR["segs"]:
+            if not sg.get("mp3"):
+                continue
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-i", sg["mp3"], "-f", "s16le", "-ac", "1", "-ar", str(SR),
+                                  "-"], capture_output=True, check=True).stdout
+            v = np.frombuffer(raw, dtype=np.int16) / 32768.0
+            a0 = int((sg["start"] + sg["pre"]) * SR)
+            b0 = min(len(voice), a0 + len(v))
+            voice[a0:b0] += v[:b0 - a0] / (np.abs(v).max() + 1e-9) * 0.89
+        mix = np.clip(voice + mix * 1.2, -0.98, 0.98)
+    else:
+        mix = np.clip(mix * 2.2, -0.98, 0.98)   # louder music bed: no voice
     os.makedirs(os.path.join(HERE, "build"), exist_ok=True)
     wav = os.path.join(HERE, "build", f"{name}.wav")
     with wave.open(wav, "wb") as wf:
