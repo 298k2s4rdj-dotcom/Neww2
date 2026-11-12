@@ -25,3 +25,7 @@ ratemal_long/*/qc/
 ratemal_long/*/qc_shorts/
 ratemal_color/textshorts/build/
 ratemal_color/textshorts/qc/
+ratemal_color/premium/build/
+ratemal_color/premium/qc/
+ratemal_color/premium/build.log
+ratemal_color/premium/__pycache__/
