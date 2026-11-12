@@ -39,6 +39,7 @@ CX, CY, CW, CH = 540, 830, 960, 700          # glass card
 PW, PH = 920, 660                            # inner illustration area
 PX0, PY0 = CX - PW // 2, CY - PH // 2
 W_ = M.W_
+CAP_Y = M.CAP_Y + 20
 
 
 def spline(pts, n=10, closed=True):
@@ -186,9 +187,29 @@ def caption_shade():
     return lay.filter(ImageFilter.GaussianBlur(50))
 
 
+CAPQ = []
+
+
 def cap(img, s, t, hl=()):
-    img.alpha_composite(caption_shade(), (0, M.CAP_Y - 210))
-    M.caption(img, s, t, size=70, hl=hl)
+    """captions are drawn after the camera move (see draw_seg) so they stay sharp and still"""
+    CAPQ.append((s, t, hl))
+
+
+def draw_caption(img, s, t, hl):
+    img.alpha_composite(caption_shade(), (0, CAP_Y - 210))
+    lay = Image.new("RGBA", (W, 520))
+    off = CAP_Y - 260
+    M.caption(lay, s, t, size=70, hl=hl, y=260)
+    a = lay.getchannel("A")
+    sh = Image.new("RGBA", lay.size, (6, 2, 20, 0))
+    sh.putalpha(a.filter(ImageFilter.GaussianBlur(10)).point(lambda v: int(v * 0.75)))
+    img.alpha_composite(sh, (0, off + 8))
+    gl = Image.new("RGBA", lay.size, (255, 220, 80, 0))
+    yel = np.array(lay, np.int16)
+    ym = ((yel[..., 0] > 200) & (yel[..., 1] > 180) & (yel[..., 2] < 140) & (yel[..., 3] > 100)).astype(np.uint8) * 255
+    gl.putalpha(Image.fromarray(ym).filter(ImageFilter.GaussianBlur(14)).point(lambda v: int(v * 0.8)))
+    img.alpha_composite(gl, (0, off))
+    img.alpha_composite(lay, (0, off))
 
 
 @lru_cache(None)
@@ -1293,7 +1314,28 @@ def arm_base():
         d.arc((x - 90, y - 10, x + 90, y + 10), 200, 340, fill=(200, 140, 120, 60), width=2)
     vein = spline([(0, 380), (200, 360), (420, 390), (640, 350), (920, 370)], 8, False)
     d.line(vein, fill=(150, 150, 200, 60), width=10, joint="curve")
-    return clip(arm, m)
+    d.line(spline([(300, 420), (480, 400), (700, 430), (920, 410)], 8, False), fill=(150, 150, 200, 45), width=7,
+           joint="curve")
+    # freckles / pores
+    for _ in range(260):
+        x, y = r.uniform(0, PW), r.uniform(170, 500)
+        s_ = r.uniform(0.8, 2.2)
+        d.ellipse((x - s_, y - s_, x + s_, y + s_), fill=(190, 120, 95, int(r.uniform(40, 110))))
+    for _ in range(10):
+        x, y = r.uniform(0, PW), r.uniform(220, 460)
+        d.ellipse((x - 4, y - 3, x + 4, y + 3), fill=(170, 100, 70, 90))
+    arm = clip(arm, m)
+    # rim light on the upper edge + soft cast shadow below the arm
+    rim = layer()
+    ImageDraw.Draw(rim).line(spline([(-60, 172), (300, 152), (600, 162), (980, 142)], 8, False),
+                             fill=(255, 245, 230, 200), width=8)
+    rim = clip(rim.filter(ImageFilter.GaussianBlur(4)), m)
+    sh = layer()
+    ImageDraw.Draw(sh).polygon([(-60, 505), (300, 515), (600, 505), (980, 525), (980, 600), (-60, 590)],
+                               fill=(20, 10, 40, 110))
+    sh = sh.filter(ImageFilter.GaussianBlur(22))
+    out = Image.alpha_composite(lay, sh)
+    return Image.alpha_composite(Image.alpha_composite(out, arm), rim)
 
 
 FOLL = [(random.Random(i).uniform(30, PW - 30), random.Random(i * 7 + 3).uniform(200, 480)) for i in range(70)]
@@ -1706,13 +1748,91 @@ def drift(img, gt):
     img.alpha_composite(lay)
 
 
+@lru_cache(None)
+def rays_sprite():
+    lay = Image.new("RGBA", (W, H))
+    d = ImageDraw.Draw(lay)
+    ox, oy = W * 0.5, -700
+    for k, (a, w) in enumerate(((-0.55, 0.07), (-0.3, 0.05), (-0.08, 0.09), (0.18, 0.06), (0.42, 0.08))):
+        a0, a1 = math.pi / 2 + a - w, math.pi / 2 + a + w
+        L = 2600
+        d.polygon([(ox, oy), (ox + L * math.cos(a0), oy + L * math.sin(a0)), (ox + L * math.cos(a1), oy + L * math.sin(a1))],
+                  fill=(255, 245, 220, 20 if k % 2 else 26))
+    lay = lay.filter(ImageFilter.GaussianBlur(70))
+    fade = fx.lin(W, H, [(0, (255, 255, 255, 255)), (0.75, (255, 255, 255, 60)), (1, (255, 255, 255, 0))])
+    lay.putalpha(ImageChops.multiply(lay.getchannel("A"), fade.getchannel("A")))
+    return lay
+
+
+@lru_cache(None)
+def bokeh_sprite(r, col):
+    s = int(r * 2 + 60)
+    lay = Image.new("RGBA", (s, s))
+    d = ImageDraw.Draw(lay)
+    d.ellipse((30, 30, s - 30, s - 30), fill=col + (60,), outline=col + (90,), width=3)
+    return lay.filter(ImageFilter.GaussianBlur(7))
+
+
+def fg_bokeh(img, gt):
+    r = random.Random(77)
+    for _ in range(7):
+        rad = r.uniform(30, 70)
+        col = r.choice([(255, 230, 170), (170, 210, 255), (255, 180, 230)])
+        x0, y0, sp = r.uniform(0, W), r.uniform(0, H), r.uniform(8, 22)
+        y = (y0 - gt * sp) % (H + 300) - 150
+        x = x0 + 30 * math.sin(gt * 0.4 + x0)
+        place(img, bokeh_sprite(int(rad), col), x, y, alpha=0.5 + 0.3 * math.sin(gt + x0))
+
+
 def draw_seg(s, t, gt):
     img = CUR["BG"].copy()
+    place(img, rays_sprite(), W / 2, H / 2, alpha=0.75 + 0.25 * math.sin(gt * 0.7))
     drift(img, gt)
     M.SEG.clear()
     M.SEG.update(s)
+    CAPQ.clear()
     s["fn"](img, t, gt, None)
+    fg_bokeh(img, gt)
+    # slow camera push-in (captions excluded)
+    z = 1.0 + 0.035 * ease_io(min(1.0, t / max(1.0, s["dur"])))
+    if z > 1.001:
+        zw, zh = int(W * z), int(H * z)
+        big = img.resize((zw, zh), Image.BILINEAR)
+        cy0 = int((zh - H) * 0.42)
+        img = big.crop(((zw - W) // 2, cy0, (zw - W) // 2 + W, cy0 + H))
+    for c in CAPQ:
+        draw_caption(img, *c)
     return img
+
+
+# cinematic grade: gentle S-curve, cool shadows, warm highlights
+_x = np.arange(256) / 255.0
+_s = _x + 0.10 * np.sin(2 * math.pi * _x) * -0.5 * 1.0
+_s = np.clip(_x + 0.06 * np.sin(2 * math.pi * (_x - 0.5)) * -1, 0, 1)
+LUT = np.stack([np.clip(_s * 255 + 6 * _x ** 2, 0, 255), np.clip(_s * 255, 0, 255),
+                np.clip(_s * 255 + 8 * (1 - _x) ** 2 - 4 * _x ** 2, 0, 255)]).astype(np.uint8)
+_GR = None
+
+
+def grain(i):
+    global _GR
+    if _GR is None:
+        rng = np.random.default_rng(5)
+        _GR = [rng.normal(0, 3.2, (H, W, 1)).astype(np.float32) for _ in range(6)]
+    return _GR[i % 6]
+
+
+def post(img, fi):
+    rgb = img.convert("RGB")
+    small = rgb.resize((W // 4, H // 4), Image.BILINEAR)
+    a = np.asarray(small, np.float32)
+    lum = a.mean(axis=2, keepdims=True)
+    br = np.clip((lum - 195) / 60, 0, 1) * a
+    bl = Image.fromarray(br.astype(np.uint8)).filter(ImageFilter.GaussianBlur(9)).resize((W, H), Image.BILINEAR)
+    out = np.asarray(rgb, np.float32) + np.asarray(bl, np.float32) * 0.28 + grain(fi)
+    out = np.clip(out, 0, 255).astype(np.uint8)
+    out = np.stack([LUT[c][out[..., c]] for c in range(3)], axis=2)
+    return Image.fromarray(out)
 
 
 def render_frame(fi):
@@ -1720,11 +1840,20 @@ def render_frame(fi):
     s = seg_at(gt)
     t = gt - s["start"]
     img = draw_seg(s, t, gt)
-    if t < 0.25 and s is not CUR["segs"][0]:
+    TR = 0.35
+    if t < TR and s is not CUR["segs"][0]:
+        k = ease_io(t / TR)
         prev = CUR["segs"][CUR["segs"].index(s) - 1]
         pimg = draw_seg(prev, prev["dur"] - 0.01, gt)
-        img = Image.blend(pimg, img, ease_io(t / 0.25))
-    return img.convert("RGB")
+        z = 1 + 0.08 * k
+        pb = pimg.resize((int(W * z), int(H * z)), Image.BILINEAR)
+        pimg = pb.crop(((pb.width - W) // 2, (pb.height - H) // 2, (pb.width - W) // 2 + W, (pb.height - H) // 2 + H))
+        z2 = 0.94 + 0.06 * k
+        nb = img.resize((int(W * z2), int(H * z2)), Image.BILINEAR)
+        base = CUR["BG"].copy()
+        base.alpha_composite(nb, ((W - nb.width) // 2, (H - nb.height) // 2))
+        img = Image.blend(pimg, base, k)
+    return post(img, fi)
 
 
 def render_bytes(fi):
