@@ -1805,7 +1805,7 @@ def draw_seg(s, t, gt):
     return img
 
 
-# cinematic grade: gentle S-curve, cool shadows, warm highlights
+# grade: gentle S-curve, cool shadows, warm highlights (no grain)
 _x = np.arange(256) / 255.0
 _s = _x + 0.10 * np.sin(2 * math.pi * _x) * -0.5 * 1.0
 _s = np.clip(_x + 0.06 * np.sin(2 * math.pi * (_x - 0.5)) * -1, 0, 1)
@@ -1829,7 +1829,7 @@ def post(img, fi):
     lum = a.mean(axis=2, keepdims=True)
     br = np.clip((lum - 195) / 60, 0, 1) * a
     bl = Image.fromarray(br.astype(np.uint8)).filter(ImageFilter.GaussianBlur(9)).resize((W, H), Image.BILINEAR)
-    out = np.asarray(rgb, np.float32) + np.asarray(bl, np.float32) * 0.28 + grain(fi)
+    out = np.asarray(rgb, np.float32) + np.asarray(bl, np.float32) * 0.28   # no film grain: clean image
     out = np.clip(out, 0, 255).astype(np.uint8)
     out = np.stack([LUT[c][out[..., c]] for c in range(3)], axis=2)
     return Image.fromarray(out)
