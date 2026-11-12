@@ -1,1 +1,52 @@
-{"words": [{"text": "Rate", "type": "word", "start": 0.16, "end": 0.4}, {"text": "mal,", "type": "word", "start": 0.48, "end": 0.693}, {"text": "was", "type": "word", "start": 0.747, "end": 0.8}, {"text": "passiert,", "type": "word", "start": 0.88, "end": 1.24}, {"text": "wenn", "type": "word", "start": 1.28, "end": 1.36}, {"text": "du", "type": "word", "start": 1.48, "end": 1.6}, {"text": "Gänsehaut", "type": "word", "start": 1.68, "end": 2.16}, {"text": "bekommst!", "type": "word", "start": 2.28, "end": 3.04}]}
+{
+  "words": [
+    {
+      "text": "Rate",
+      "type": "word",
+      "start": 0,
+      "end": 0.4
+    },
+    {
+      "text": "mal,",
+      "type": "word",
+      "start": 0.52,
+      "end": 0.72
+    },
+    {
+      "text": "was",
+      "type": "word",
+      "start": 0.84,
+      "end": 0.96
+    },
+    {
+      "text": "passiert,",
+      "type": "word",
+      "start": 1.04,
+      "end": 1.52
+    },
+    {
+      "text": "wenn",
+      "type": "word",
+      "start": 1.547,
+      "end": 1.6
+    },
+    {
+      "text": "du",
+      "type": "word",
+      "start": 1.68,
+      "end": 1.84
+    },
+    {
+      "text": "Gänsehaut",
+      "type": "word",
+      "start": 1.88,
+      "end": 2.4
+    },
+    {
+      "text": "bekommst.",
+      "type": "word",
+      "start": 2.52,
+      "end": 3.2
+    }
+  ]
+}

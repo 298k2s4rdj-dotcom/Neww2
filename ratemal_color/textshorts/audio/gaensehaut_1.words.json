@@ -1,1 +1,64 @@
-{"words": [{"text": "An", "type": "word", "start": 0.0, "end": 0.16}, {"text": "jedem", "type": "word", "start": 0.24, "end": 0.56}, {"text": "Haar", "type": "word", "start": 0.64, "end": 0.88}, {"text": "in", "type": "word", "start": 0.92, "end": 0.96}, {"text": "deiner", "type": "word", "start": 1.04, "end": 1.2}, {"text": "Haut", "type": "word", "start": 1.28, "end": 1.6}, {"text": "sitzt", "type": "word", "start": 1.76, "end": 2.08}, {"text": "ein", "type": "word", "start": 2.16, "end": 2.24}, {"text": "winziger", "type": "word", "start": 2.4, "end": 2.8}, {"text": "Muskel.", "type": "word", "start": 2.88, "end": 3.6}]}
+{
+  "words": [
+    {
+      "text": "An",
+      "type": "word",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "text": "jedem",
+      "type": "word",
+      "start": 0.24,
+      "end": 0.56
+    },
+    {
+      "text": "Haar",
+      "type": "word",
+      "start": 0.64,
+      "end": 0.88
+    },
+    {
+      "text": "in",
+      "type": "word",
+      "start": 0.92,
+      "end": 0.96
+    },
+    {
+      "text": "deiner",
+      "type": "word",
+      "start": 1.04,
+      "end": 1.2
+    },
+    {
+      "text": "Haut",
+      "type": "word",
+      "start": 1.36,
+      "end": 1.6
+    },
+    {
+      "text": "sitzt",
+      "type": "word",
+      "start": 1.76,
+      "end": 2.04
+    },
+    {
+      "text": "ein",
+      "type": "word",
+      "start": 2.08,
+      "end": 2.24
+    },
+    {
+      "text": "winziger",
+      "type": "word",
+      "start": 2.32,
+      "end": 2.8
+    },
+    {
+      "text": "Muskel.",
+      "type": "word",
+      "start": 2.88,
+      "end": 3.68
+    }
+  ]
+}

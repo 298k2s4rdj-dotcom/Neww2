@@ -1,1 +1,82 @@
-{"words": [{"text": "Wenn", "type": "word", "start": 0, "end": 0.16}, {"text": "das", "type": "word", "start": 0.24, "end": 0.32}, {"text": "kalte", "type": "word", "start": 0.4, "end": 0.72}, {"text": "Eis", "type": "word", "start": 0.8, "end": 1.04}, {"text": "deinen", "type": "word", "start": 1.08, "end": 1.36}, {"text": "Gaumen", "type": "word", "start": 1.44, "end": 1.76}, {"text": "trifft,", "type": "word", "start": 1.8, "end": 2.32}, {"text": "kühlen", "type": "word", "start": 2.36, "end": 2.64}, {"text": "die", "type": "word", "start": 2.68, "end": 2.72}, {"text": "Blutgefäße", "type": "word", "start": 2.8, "end": 3.44}, {"text": "dort", "type": "word", "start": 3.52, "end": 3.68}, {"text": "blitzschnell", "type": "word", "start": 3.76, "end": 4.24}, {"text": "ab.", "type": "word", "start": 4.4, "end": 5.04}]}
+{
+  "words": [
+    {
+      "text": "Wenn",
+      "type": "word",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "text": "das",
+      "type": "word",
+      "start": 0.24,
+      "end": 0.32
+    },
+    {
+      "text": "kalte",
+      "type": "word",
+      "start": 0.4,
+      "end": 0.72
+    },
+    {
+      "text": "Eis",
+      "type": "word",
+      "start": 0.8,
+      "end": 1.04
+    },
+    {
+      "text": "deinen",
+      "type": "word",
+      "start": 1.08,
+      "end": 1.36
+    },
+    {
+      "text": "Gaumen",
+      "type": "word",
+      "start": 1.44,
+      "end": 1.76
+    },
+    {
+      "text": "trifft,",
+      "type": "word",
+      "start": 1.8,
+      "end": 2.32
+    },
+    {
+      "text": "kühlen",
+      "type": "word",
+      "start": 2.4,
+      "end": 2.64
+    },
+    {
+      "text": "die",
+      "type": "word",
+      "start": 2.68,
+      "end": 2.72
+    },
+    {
+      "text": "Blutgefäße",
+      "type": "word",
+      "start": 2.8,
+      "end": 3.44
+    },
+    {
+      "text": "dort",
+      "type": "word",
+      "start": 3.48,
+      "end": 3.68
+    },
+    {
+      "text": "blitzschnell",
+      "type": "word",
+      "start": 3.76,
+      "end": 4.32
+    },
+    {
+      "text": "ab.",
+      "type": "word",
+      "start": 4.4,
+      "end": 4.88
+    }
+  ]
+}

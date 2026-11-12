@@ -1,1 +1,94 @@
-{"words": [{"text": "Beim", "type": "word", "start": 0.0, "end": 0.16}, {"text": "Sinkflug", "type": "word", "start": 0.24, "end": 0.72}, {"text": "steigt", "type": "word", "start": 0.8, "end": 1.12}, {"text": "der", "type": "word", "start": 1.2, "end": 1.28}, {"text": "Luftdruck", "type": "word", "start": 1.32, "end": 1.68}, {"text": "in", "type": "word", "start": 1.72, "end": 1.76}, {"text": "der", "type": "word", "start": 1.8, "end": 1.84}, {"text": "Kabine,", "type": "word", "start": 1.92, "end": 2.56}, {"text": "und", "type": "word", "start": 2.64, "end": 2.8}, {"text": "drückt", "type": "word", "start": 2.84, "end": 3.04}, {"text": "von", "type": "word", "start": 3.16, "end": 3.28}, {"text": "außen", "type": "word", "start": 3.36, "end": 3.68}, {"text": "auf", "type": "word", "start": 3.76, "end": 3.84}, {"text": "dein", "type": "word", "start": 3.92, "end": 4.08}, {"text": "Trommelfell.", "type": "word", "start": 4.133, "end": 4.96}]}
+{
+  "words": [
+    {
+      "text": "Beim",
+      "type": "word",
+      "start": 0,
+      "end": 0.24
+    },
+    {
+      "text": "Sinkflug",
+      "type": "word",
+      "start": 0.32,
+      "end": 0.8
+    },
+    {
+      "text": "steigt",
+      "type": "word",
+      "start": 0.88,
+      "end": 1.2
+    },
+    {
+      "text": "der",
+      "type": "word",
+      "start": 1.28,
+      "end": 1.36
+    },
+    {
+      "text": "Luftdruck",
+      "type": "word",
+      "start": 1.4,
+      "end": 1.76
+    },
+    {
+      "text": "in",
+      "type": "word",
+      "start": 1.84,
+      "end": 1.88
+    },
+    {
+      "text": "der",
+      "type": "word",
+      "start": 1.92,
+      "end": 2
+    },
+    {
+      "text": "Kabine,",
+      "type": "word",
+      "start": 2.04,
+      "end": 2.56
+    },
+    {
+      "text": "und",
+      "type": "word",
+      "start": 2.64,
+      "end": 2.8
+    },
+    {
+      "text": "drückt",
+      "type": "word",
+      "start": 2.84,
+      "end": 3.04
+    },
+    {
+      "text": "von",
+      "type": "word",
+      "start": 3.12,
+      "end": 3.36
+    },
+    {
+      "text": "außen",
+      "type": "word",
+      "start": 3.44,
+      "end": 3.76
+    },
+    {
+      "text": "auf",
+      "type": "word",
+      "start": 3.84,
+      "end": 3.92
+    },
+    {
+      "text": "dein",
+      "type": "word",
+      "start": 3.96,
+      "end": 4.08
+    },
+    {
+      "text": "Trommelfell.",
+      "type": "word",
+      "start": 4.16,
+      "end": 5.04
+    }
+  ]
+}

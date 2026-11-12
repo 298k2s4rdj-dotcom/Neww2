@@ -1,1 +1,106 @@
-{"words": [{"text": "Rate", "type": "word", "start": 0.16, "end": 0.4}, {"text": "mal,", "type": "word", "start": 0.48, "end": 0.693}, {"text": "was", "type": "word", "start": 0.747, "end": 0.8}, {"text": "passiert,", "type": "word", "start": 0.88, "end": 1.24}, {"text": "wenn", "type": "word", "start": 1.28, "end": 1.36}, {"text": "du", "type": "word", "start": 1.48, "end": 1.6}, {"text": "Eis", "type": "word", "start": 1.64, "end": 1.84}, {"text": "zu", "type": "word", "start": 1.92, "end": 2}, {"text": "schnell", "type": "word", "start": 2.08, "end": 2.32}, {"text": "isst!", "type": "word", "start": 2.4, "end": 3.04}, {"text": "Warum", "type": "word", "start": 3.12, "end": 3.44}, {"text": "tut", "type": "word", "start": 3.493, "end": 3.6}, {"text": "plötzlich", "type": "word", "start": 3.64, "end": 4}, {"text": "dein", "type": "word", "start": 4.04, "end": 4.24}, {"text": "Kopf", "type": "word", "start": 4.293, "end": 4.48}, {"text": "so", "type": "word", "start": 4.56, "end": 4.64}, {"text": "weh?", "type": "word", "start": 4.72, "end": 5.28}]}
+{
+  "words": [
+    {
+      "text": "Rate",
+      "type": "word",
+      "start": 0,
+      "end": 0.32
+    },
+    {
+      "text": "mal,",
+      "type": "word",
+      "start": 0.4,
+      "end": 0.64
+    },
+    {
+      "text": "was",
+      "type": "word",
+      "start": 0.72,
+      "end": 0.8
+    },
+    {
+      "text": "passiert,",
+      "type": "word",
+      "start": 0.92,
+      "end": 1.32
+    },
+    {
+      "text": "wenn",
+      "type": "word",
+      "start": 1.36,
+      "end": 1.44
+    },
+    {
+      "text": "du",
+      "type": "word",
+      "start": 1.56,
+      "end": 1.68
+    },
+    {
+      "text": "Eis",
+      "type": "word",
+      "start": 1.72,
+      "end": 2
+    },
+    {
+      "text": "zu",
+      "type": "word",
+      "start": 2.08,
+      "end": 2.16
+    },
+    {
+      "text": "schnell",
+      "type": "word",
+      "start": 2.24,
+      "end": 2.56
+    },
+    {
+      "text": "isst.",
+      "type": "word",
+      "start": 2.64,
+      "end": 3.36
+    },
+    {
+      "text": "Warum",
+      "type": "word",
+      "start": 3.44,
+      "end": 3.76
+    },
+    {
+      "text": "tut",
+      "type": "word",
+      "start": 3.813,
+      "end": 3.92
+    },
+    {
+      "text": "plötzlich",
+      "type": "word",
+      "start": 4,
+      "end": 4.32
+    },
+    {
+      "text": "dein",
+      "type": "word",
+      "start": 4.36,
+      "end": 4.56
+    },
+    {
+      "text": "Kopf",
+      "type": "word",
+      "start": 4.64,
+      "end": 4.88
+    },
+    {
+      "text": "so",
+      "type": "word",
+      "start": 4.96,
+      "end": 5.04
+    },
+    {
+      "text": "weh?",
+      "type": "word",
+      "start": 5.12,
+      "end": 5.6
+    }
+  ]
+}

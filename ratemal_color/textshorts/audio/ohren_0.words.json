@@ -1,1 +1,82 @@
-{"words": [{"text": "Rate", "type": "word", "start": 0.16, "end": 0.4}, {"text": "mal,", "type": "word", "start": 0.48, "end": 0.693}, {"text": "was", "type": "word", "start": 0.747, "end": 0.8}, {"text": "passiert,", "type": "word", "start": 0.88, "end": 1.227}, {"text": "wenn", "type": "word", "start": 1.253, "end": 1.36}, {"text": "ein", "type": "word", "start": 1.44, "end": 1.52}, {"text": "Flugzeug", "type": "word", "start": 1.6, "end": 2.08}, {"text": "landet!", "type": "word", "start": 2.2, "end": 2.88}, {"text": "Warum", "type": "word", "start": 2.96, "end": 3.28}, {"text": "drücken", "type": "word", "start": 3.32, "end": 3.6}, {"text": "plötzlich", "type": "word", "start": 3.64, "end": 4.0}, {"text": "deine", "type": "word", "start": 4.04, "end": 4.24}, {"text": "Ohren?", "type": "word", "start": 4.32, "end": 4.96}]}
+{
+  "words": [
+    {
+      "text": "Rate",
+      "type": "word",
+      "start": 0,
+      "end": 0.32
+    },
+    {
+      "text": "mal,",
+      "type": "word",
+      "start": 0.4,
+      "end": 0.64
+    },
+    {
+      "text": "was",
+      "type": "word",
+      "start": 0.72,
+      "end": 0.8
+    },
+    {
+      "text": "passiert,",
+      "type": "word",
+      "start": 0.92,
+      "end": 1.307
+    },
+    {
+      "text": "wenn",
+      "type": "word",
+      "start": 1.333,
+      "end": 1.44
+    },
+    {
+      "text": "ein",
+      "type": "word",
+      "start": 1.52,
+      "end": 1.6
+    },
+    {
+      "text": "Flugzeug",
+      "type": "word",
+      "start": 1.68,
+      "end": 2.16
+    },
+    {
+      "text": "landet.",
+      "type": "word",
+      "start": 2.28,
+      "end": 2.64
+    },
+    {
+      "text": "Warum",
+      "type": "word",
+      "start": 3.04,
+      "end": 3.36
+    },
+    {
+      "text": "drücken",
+      "type": "word",
+      "start": 3.44,
+      "end": 3.68
+    },
+    {
+      "text": "plötzlich",
+      "type": "word",
+      "start": 3.76,
+      "end": 4.16
+    },
+    {
+      "text": "deine",
+      "type": "word",
+      "start": 4.2,
+      "end": 4.4
+    },
+    {
+      "text": "Ohren?",
+      "type": "word",
+      "start": 4.48,
+      "end": 5.12
+    }
+  ]
+}

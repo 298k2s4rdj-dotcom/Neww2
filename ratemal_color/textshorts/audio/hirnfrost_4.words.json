@@ -1,1 +1,130 @@
-{"words": [{"text": "Deshalb", "type": "word", "start": 1.2, "end": 1.6}, {"text": "heißt", "type": "word", "start": 1.64, "end": 1.84}, {"text": "das", "type": "word", "start": 1.92, "end": 2.0}, {"text": "auch", "type": "word", "start": 2.04, "end": 2.16}, {"text": "Hirnfrost.", "type": "word", "start": 2.24, "end": 2.96}, {"text": "Aber", "type": "word", "start": 3.36, "end": 3.52}, {"text": "keine", "type": "word", "start": 3.6, "end": 3.84}, {"text": "Sorge:", "type": "word", "start": 3.92, "end": 4.24}, {"text": "Dein", "type": "word", "start": 4.64, "end": 4.76}, {"text": "Gehirn", "type": "word", "start": 4.8, "end": 5.12}, {"text": "friert", "type": "word", "start": 5.16, "end": 5.36}, {"text": "nicht", "type": "word", "start": 5.4, "end": 5.6}, {"text": "wirklich", "type": "word", "start": 5.64, "end": 6.0}, {"text": "ein.", "type": "word", "start": 6.12, "end": 6.64}, {"text": "Meistens", "type": "word", "start": 6.72, "end": 7.12}, {"text": "ist", "type": "word", "start": 7.2, "end": 7.28}, {"text": "alles", "type": "word", "start": 7.36, "end": 7.52}, {"text": "nach", "type": "word", "start": 7.56, "end": 7.68}, {"text": "wenigen", "type": "word", "start": 7.76, "end": 8.08}, {"text": "Sekunden", "type": "word", "start": 8.12, "end": 8.48}, {"text": "vorbei.", "type": "word", "start": 8.56, "end": 9.28}]}
+{
+  "words": [
+    {
+      "text": "Deshalb",
+      "type": "word",
+      "start": 0,
+      "end": 0.4
+    },
+    {
+      "text": "heißt",
+      "type": "word",
+      "start": 0.44,
+      "end": 0.6
+    },
+    {
+      "text": "das",
+      "type": "word",
+      "start": 0.64,
+      "end": 0.72
+    },
+    {
+      "text": "auch",
+      "type": "word",
+      "start": 0.8,
+      "end": 0.96
+    },
+    {
+      "text": "Hirnfrost.",
+      "type": "word",
+      "start": 1,
+      "end": 1.76
+    },
+    {
+      "text": "Aber",
+      "type": "word",
+      "start": 2.08,
+      "end": 2.32
+    },
+    {
+      "text": "keine",
+      "type": "word",
+      "start": 2.48,
+      "end": 2.72
+    },
+    {
+      "text": "Sorge:",
+      "type": "word",
+      "start": 2.8,
+      "end": 3.12
+    },
+    {
+      "text": "Dein",
+      "type": "word",
+      "start": 3.52,
+      "end": 3.68
+    },
+    {
+      "text": "Gehirn",
+      "type": "word",
+      "start": 3.72,
+      "end": 4
+    },
+    {
+      "text": "friert",
+      "type": "word",
+      "start": 4.08,
+      "end": 4.32
+    },
+    {
+      "text": "nicht",
+      "type": "word",
+      "start": 4.373,
+      "end": 4.48
+    },
+    {
+      "text": "wirklich",
+      "type": "word",
+      "start": 4.56,
+      "end": 4.88
+    },
+    {
+      "text": "ein.",
+      "type": "word",
+      "start": 4.96,
+      "end": 5.4
+    },
+    {
+      "text": "Meistens",
+      "type": "word",
+      "start": 5.6,
+      "end": 6
+    },
+    {
+      "text": "ist",
+      "type": "word",
+      "start": 6.08,
+      "end": 6.16
+    },
+    {
+      "text": "alles",
+      "type": "word",
+      "start": 6.24,
+      "end": 6.48
+    },
+    {
+      "text": "nach",
+      "type": "word",
+      "start": 6.533,
+      "end": 6.64
+    },
+    {
+      "text": "wenigen",
+      "type": "word",
+      "start": 6.72,
+      "end": 7.04
+    },
+    {
+      "text": "Sekunden",
+      "type": "word",
+      "start": 7.12,
+      "end": 7.44
+    },
+    {
+      "text": "vorbei.",
+      "type": "word",
+      "start": 7.52,
+      "end": 8.24
+    }
+  ]
+}

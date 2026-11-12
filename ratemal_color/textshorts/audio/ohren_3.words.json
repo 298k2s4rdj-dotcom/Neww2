@@ -1,1 +1,142 @@
-{"words": [{"text": "Die", "type": "word", "start": 0.0, "end": 0.16}, {"text": "Luft", "type": "word", "start": 0.24, "end": 0.4}, {"text": "dahinter", "type": "word", "start": 0.44, "end": 0.96}, {"text": "kommt", "type": "word", "start": 1.04, "end": 1.28}, {"text": "nicht", "type": "word", "start": 1.32, "end": 1.52}, {"text": "so", "type": "word", "start": 1.56, "end": 1.6}, {"text": "schnell", "type": "word", "start": 1.68, "end": 1.84}, {"text": "hinterher.", "type": "word", "start": 1.92, "end": 2.72}, {"text": "Das", "type": "word", "start": 2.96, "end": 3.12}, {"text": "Trommelfell", "type": "word", "start": 3.16, "end": 3.76}, {"text": "wölbt", "type": "word", "start": 3.84, "end": 4.08}, {"text": "sich", "type": "word", "start": 4.12, "end": 4.24}, {"text": "nach", "type": "word", "start": 4.32, "end": 4.48}, {"text": "innen.", "type": "word", "start": 4.56, "end": 4.88}, {"text": "Das", "type": "word", "start": 5.28, "end": 5.44}, {"text": "spürst", "type": "word", "start": 5.52, "end": 5.76}, {"text": "du", "type": "word", "start": 5.8, "end": 5.84}, {"text": "als", "type": "word", "start": 5.96, "end": 6.08}, {"text": "Druck,", "type": "word", "start": 6.16, "end": 6.8}, {"text": "manchmal", "type": "word", "start": 6.88, "end": 7.2}, {"text": "sogar", "type": "word", "start": 7.28, "end": 7.52}, {"text": "als", "type": "word", "start": 7.6, "end": 7.68}, {"text": "Schmerz.", "type": "word", "start": 7.76, "end": 8.48}]}
+{
+  "words": [
+    {
+      "text": "Die",
+      "type": "word",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "text": "Luft",
+      "type": "word",
+      "start": 0.24,
+      "end": 0.4
+    },
+    {
+      "text": "dahinter",
+      "type": "word",
+      "start": 0.44,
+      "end": 0.96
+    },
+    {
+      "text": "kommt",
+      "type": "word",
+      "start": 1.04,
+      "end": 1.28
+    },
+    {
+      "text": "nicht",
+      "type": "word",
+      "start": 1.32,
+      "end": 1.52
+    },
+    {
+      "text": "so",
+      "type": "word",
+      "start": 1.56,
+      "end": 1.6
+    },
+    {
+      "text": "schnell",
+      "type": "word",
+      "start": 1.68,
+      "end": 1.84
+    },
+    {
+      "text": "hinterher.",
+      "type": "word",
+      "start": 1.92,
+      "end": 2.56
+    },
+    {
+      "text": "Das",
+      "type": "word",
+      "start": 2.96,
+      "end": 3.04
+    },
+    {
+      "text": "Trommelfell",
+      "type": "word",
+      "start": 3.12,
+      "end": 3.68
+    },
+    {
+      "text": "wölbt",
+      "type": "word",
+      "start": 3.76,
+      "end": 4.08
+    },
+    {
+      "text": "sich",
+      "type": "word",
+      "start": 4.133,
+      "end": 4.24
+    },
+    {
+      "text": "nach",
+      "type": "word",
+      "start": 4.32,
+      "end": 4.4
+    },
+    {
+      "text": "innen.",
+      "type": "word",
+      "start": 4.56,
+      "end": 4.88
+    },
+    {
+      "text": "Das",
+      "type": "word",
+      "start": 5.28,
+      "end": 5.44
+    },
+    {
+      "text": "spürst",
+      "type": "word",
+      "start": 5.52,
+      "end": 5.76
+    },
+    {
+      "text": "du",
+      "type": "word",
+      "start": 5.84,
+      "end": 5.92
+    },
+    {
+      "text": "als",
+      "type": "word",
+      "start": 6,
+      "end": 6.08
+    },
+    {
+      "text": "Druck,",
+      "type": "word",
+      "start": 6.16,
+      "end": 6.8
+    },
+    {
+      "text": "manchmal",
+      "type": "word",
+      "start": 6.88,
+      "end": 7.28
+    },
+    {
+      "text": "sogar",
+      "type": "word",
+      "start": 7.32,
+      "end": 7.52
+    },
+    {
+      "text": "als",
+      "type": "word",
+      "start": 7.6,
+      "end": 7.68
+    },
+    {
+      "text": "Schmerz.",
+      "type": "word",
+      "start": 7.76,
+      "end": 8.48
+    }
+  ]
+}

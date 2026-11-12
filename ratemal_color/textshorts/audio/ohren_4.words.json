@@ -1,1 +1,130 @@
-{"words": [{"text": "Die", "type": "word", "start": 0.0, "end": 0.16}, {"text": "Rettung", "type": "word", "start": 0.24, "end": 0.56}, {"text": "ist", "type": "word", "start": 0.64, "end": 0.8}, {"text": "ein", "type": "word", "start": 0.92, "end": 1.04}, {"text": "winziger", "type": "word", "start": 1.12, "end": 1.6}, {"text": "Kanal:", "type": "word", "start": 1.64, "end": 2.28}, {"text": "die", "type": "word", "start": 2.48, "end": 2.64}, {"text": "Ohrtrompete.", "type": "word", "start": 2.8, "end": 3.6}, {"text": "Geht", "type": "word", "start": 4.08, "end": 4.24}, {"text": "sie", "type": "word", "start": 4.32, "end": 4.4}, {"text": "kurz", "type": "word", "start": 4.48, "end": 4.72}, {"text": "auf,", "type": "word", "start": 4.88, "end": 5.2}, {"text": "gleicht", "type": "word", "start": 5.28, "end": 5.44}, {"text": "sich", "type": "word", "start": 5.52, "end": 5.6}, {"text": "der", "type": "word", "start": 5.68, "end": 5.76}, {"text": "Druck", "type": "word", "start": 5.8, "end": 6.0}, {"text": "aus,", "type": "word", "start": 6.08, "end": 6.48}, {"text": "und", "type": "word", "start": 6.617, "end": 6.64}, {"text": "es", "type": "word", "start": 6.72, "end": 6.8}, {"text": "macht:", "type": "word", "start": 6.88, "end": 7.44}, {"text": "Plopp!", "type": "word", "start": 7.467, "end": 8.0}]}
+{
+  "words": [
+    {
+      "text": "Die",
+      "type": "word",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "text": "Rettung",
+      "type": "word",
+      "start": 0.2,
+      "end": 0.56
+    },
+    {
+      "text": "ist",
+      "type": "word",
+      "start": 0.64,
+      "end": 0.72
+    },
+    {
+      "text": "ein",
+      "type": "word",
+      "start": 0.8,
+      "end": 0.96
+    },
+    {
+      "text": "winziger",
+      "type": "word",
+      "start": 1.04,
+      "end": 1.52
+    },
+    {
+      "text": "Kanal:",
+      "type": "word",
+      "start": 1.56,
+      "end": 2.2
+    },
+    {
+      "text": "die",
+      "type": "word",
+      "start": 2.4,
+      "end": 2.56
+    },
+    {
+      "text": "Ohrtrompete.",
+      "type": "word",
+      "start": 2.72,
+      "end": 3.76
+    },
+    {
+      "text": "Geht",
+      "type": "word",
+      "start": 4,
+      "end": 4.16
+    },
+    {
+      "text": "sie",
+      "type": "word",
+      "start": 4.24,
+      "end": 4.32
+    },
+    {
+      "text": "kurz",
+      "type": "word",
+      "start": 4.4,
+      "end": 4.64
+    },
+    {
+      "text": "auf,",
+      "type": "word",
+      "start": 4.8,
+      "end": 5.12
+    },
+    {
+      "text": "gleicht",
+      "type": "word",
+      "start": 5.2,
+      "end": 5.44
+    },
+    {
+      "text": "sich",
+      "type": "word",
+      "start": 5.493,
+      "end": 5.6
+    },
+    {
+      "text": "der",
+      "type": "word",
+      "start": 5.64,
+      "end": 5.68
+    },
+    {
+      "text": "Druck",
+      "type": "word",
+      "start": 5.76,
+      "end": 6
+    },
+    {
+      "text": "aus,",
+      "type": "word",
+      "start": 6.08,
+      "end": 6.56
+    },
+    {
+      "text": "und",
+      "type": "word",
+      "start": 6.6,
+      "end": 6.64
+    },
+    {
+      "text": "es",
+      "type": "word",
+      "start": 6.72,
+      "end": 6.8
+    },
+    {
+      "text": "macht:",
+      "type": "word",
+      "start": 6.88,
+      "end": 7.44
+    },
+    {
+      "text": "Plopp.",
+      "type": "word",
+      "start": 7.493,
+      "end": 8
+    }
+  ]
+}

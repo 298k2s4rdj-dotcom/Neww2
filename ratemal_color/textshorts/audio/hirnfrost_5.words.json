@@ -1,1 +1,130 @@
-{"words": [{"text": "Der", "type": "word", "start": 0.0, "end": 0.16}, {"text": "Trick:", "type": "word", "start": 0.24, "end": 0.64}, {"text": "Drück", "type": "word", "start": 1.04, "end": 1.28}, {"text": "deine", "type": "word", "start": 1.32, "end": 1.52}, {"text": "Zunge", "type": "word", "start": 1.6, "end": 1.84}, {"text": "fest", "type": "word", "start": 2.0, "end": 2.24}, {"text": "gegen", "type": "word", "start": 2.28, "end": 2.48}, {"text": "den", "type": "word", "start": 2.56, "end": 2.64}, {"text": "Gaumen,", "type": "word", "start": 2.72, "end": 3.36}, {"text": "oder", "type": "word", "start": 3.44, "end": 3.68}, {"text": "trink", "type": "word", "start": 3.84, "end": 4.08}, {"text": "etwas", "type": "word", "start": 4.16, "end": 4.32}, {"text": "Warmes.", "type": "word", "start": 4.4, "end": 5.08}, {"text": "So", "type": "word", "start": 5.28, "end": 5.44}, {"text": "wärmst", "type": "word", "start": 5.48, "end": 5.76}, {"text": "du", "type": "word", "start": 5.8, "end": 5.84}, {"text": "die", "type": "word", "start": 5.88, "end": 5.92}, {"text": "Stelle", "type": "word", "start": 6.0, "end": 6.24}, {"text": "schneller", "type": "word", "start": 6.32, "end": 6.64}, {"text": "wieder", "type": "word", "start": 6.72, "end": 6.88}, {"text": "auf.", "type": "word", "start": 6.96, "end": 7.52}]}
+{
+  "words": [
+    {
+      "text": "Der",
+      "type": "word",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "text": "Trick:",
+      "type": "word",
+      "start": 0.24,
+      "end": 0.64
+    },
+    {
+      "text": "Drück",
+      "type": "word",
+      "start": 1.12,
+      "end": 1.28
+    },
+    {
+      "text": "deine",
+      "type": "word",
+      "start": 1.36,
+      "end": 1.6
+    },
+    {
+      "text": "Zunge",
+      "type": "word",
+      "start": 1.68,
+      "end": 1.92
+    },
+    {
+      "text": "fest",
+      "type": "word",
+      "start": 2.08,
+      "end": 2.4
+    },
+    {
+      "text": "gegen",
+      "type": "word",
+      "start": 2.44,
+      "end": 2.64
+    },
+    {
+      "text": "den",
+      "type": "word",
+      "start": 2.72,
+      "end": 2.8
+    },
+    {
+      "text": "Gaumen,",
+      "type": "word",
+      "start": 2.88,
+      "end": 3.52
+    },
+    {
+      "text": "oder",
+      "type": "word",
+      "start": 3.64,
+      "end": 3.76
+    },
+    {
+      "text": "trink",
+      "type": "word",
+      "start": 3.92,
+      "end": 4.16
+    },
+    {
+      "text": "etwas",
+      "type": "word",
+      "start": 4.24,
+      "end": 4.4
+    },
+    {
+      "text": "Warmes.",
+      "type": "word",
+      "start": 4.48,
+      "end": 5.16
+    },
+    {
+      "text": "So",
+      "type": "word",
+      "start": 5.36,
+      "end": 5.52
+    },
+    {
+      "text": "wärmst",
+      "type": "word",
+      "start": 5.56,
+      "end": 5.84
+    },
+    {
+      "text": "du",
+      "type": "word",
+      "start": 5.88,
+      "end": 5.92
+    },
+    {
+      "text": "die",
+      "type": "word",
+      "start": 5.96,
+      "end": 6
+    },
+    {
+      "text": "Stelle",
+      "type": "word",
+      "start": 6.08,
+      "end": 6.32
+    },
+    {
+      "text": "schneller",
+      "type": "word",
+      "start": 6.4,
+      "end": 6.72
+    },
+    {
+      "text": "wieder",
+      "type": "word",
+      "start": 6.8,
+      "end": 6.96
+    },
+    {
+      "text": "auf.",
+      "type": "word",
+      "start": 7.12,
+      "end": 7.52
+    }
+  ]
+}
