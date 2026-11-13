@@ -1,0 +1,46 @@
+{
+  "words": [
+    {
+      "text": "Hättest",
+      "type": "word",
+      "start": 0,
+      "end": 0.32
+    },
+    {
+      "text": "du's",
+      "type": "word",
+      "start": 0.36,
+      "end": 0.56
+    },
+    {
+      "text": "gewusst?",
+      "type": "word",
+      "start": 0.64,
+      "end": 1.36
+    },
+    {
+      "text": "Schreib's",
+      "type": "word",
+      "start": 1.4,
+      "end": 1.68
+    },
+    {
+      "text": "in",
+      "type": "word",
+      "start": 1.72,
+      "end": 1.76
+    },
+    {
+      "text": "die",
+      "type": "word",
+      "start": 1.8,
+      "end": 1.84
+    },
+    {
+      "text": "Kommentare.",
+      "type": "word",
+      "start": 1.92,
+      "end": 2.8
+    }
+  ]
+}

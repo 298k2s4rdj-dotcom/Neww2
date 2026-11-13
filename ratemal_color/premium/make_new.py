@@ -1026,7 +1026,7 @@ def init(name):
             ws = json.load(open(os.path.join(AUDIO, key + ".words.json")))["words"]
             seg["words"] = [(w["text"], w["start"] + pre, w["end"] + pre) for w in ws]
             seg["mp3"] = mp3
-            seg["dur"] = pre + ws[-1]["end"] + (1.8 if outro else 0.55)
+            seg["dur"] = pre + ws[-1]["end"] + (1.8 if outro else 0.8)
         else:
             seg["words"] = synth_words(OUTRO_TXT if outro else SCRIPTS[name][i], pre)
             seg["dur"] = seg["words"][-1][2] + (2.0 if outro else 1.1)
