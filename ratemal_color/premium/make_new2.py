@@ -243,8 +243,10 @@ def bz_c2(img, t, gt, d):
         hgt = 420 * val / 30000 * p
         bl = Image.new("RGBA", (W, H_))
         bd = ImageDraw.Draw(bl)
-        bd.rounded_rectangle((x - 80, base - hgt, x + 80, base), 20, fill=col + (230,))
-        bd.rounded_rectangle((x - 70, base - hgt + 8, x - 50, base - 8), 10, fill=(255, 255, 255, 80))
+        if hgt > 2:
+            bd.rounded_rectangle((x - 80, base - hgt, x + 80, base), min(20, int(hgt / 2)), fill=col + (230,))
+        if hgt > 30:
+            bd.rounded_rectangle((x - 70, base - hgt + 8, x - 50, base - 8), 10, fill=(255, 255, 255, 80))
         img.alpha_composite(bl)
         text(img, f"≈ {val:,}".replace(",", ".") + " °C", 36, x, base - hgt - 40, fill=WHITE, stroke=5, sfill=NAVY,
              path=FONT_XB, alpha=fade(t, t0 + 0.3))
